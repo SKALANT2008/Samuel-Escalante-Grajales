@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Enterprise Definitivo: Camino del Café | Café para Siempre - Támesis</title>
+    <!-- Fuentes e Iconos -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #2C1810;
+            --primary-dark: #120A06;
+            --accent: #D4A373;
+            --accent-light: #FAEDCD;
+            --green-leaf: #2D5A27;
+            --green-hover: #1E3F1A;
+            --bg-canvas: #F8F9FA;
+            --surface-card: #FFFFFF;
+            --border-color: #E2D7C5;
+            --text-dark: #1F1F1F;
+            --text-muted: #6C757D;
+            --white: #FFFFFF;
+            --danger: #C0392B;
+            --warning: #D35400;
+            --shadow-game: 0 25px 50px rgba(44, 24, 16, 0.25);
+            --radius-game: 24px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-canvas);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* --- NAVBAR ENTERPRISE --- */
+        header {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            background-color: rgba(44, 24, 16, 0.98);
+            backdrop-filter: blur(14px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 5%;
+            z-index: 1000;
+            border-bottom: 2px solid var(--accent);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 46px; height: 46px;
+            background: var(--accent);
+            color: var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .logo-text h1 {
+            color: var(--accent);
+            font-size: 1.3rem;
+            font-weight: 800;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .logo-text span {
+            color: #A89F95;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            display: block;
+        }
+
+        .header-stats-hud {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            background: rgba(255,255,255,0.06);
+            padding: 8px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(212,163,115,0.3);
+        }
+
+        .hud-item {
+            color: var(--white);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .hud-item i { color: var(--accent); }
+
+        .btn-nav-back {
+            background: rgba(212, 163, 115, 0.2);
+            border: 1px solid var(--accent);
+            color: var(--accent) !important;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-weight: 600 !important;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .btn-nav-back:hover { background: var(--accent); color: var(--primary) !important; }
+
+        /* --- CONTENEDOR PRINCIPAL --- */
+        .simulator-stage-wrapper {
+            max-width: 1350px;
+            width: 95%;
+            margin: 110px auto 60px auto;
+            background: var(--surface-card);
+            border-radius: var(--radius-game);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-game);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stage-top-bar {
+            background: var(--primary);
+            color: var(--white);
+            padding: 25px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            border-bottom: 3px solid var(--accent);
+        }
+
+        .stage-title-group h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.9rem;
+            color: var(--accent);
+        }
+
+        .stage-title-group p {
+            font-size: 0.9rem;
+            color: #E2D7C5;
+            margin-top: 4px;
+        }
+
+        .game-progress-bar {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .progress-node {
+            width: 42px; height: 42px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border: 2px solid rgba(255,255,255,0.2);
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+        .progress-node.active { background: var(--accent); color: var(--primary); border-color: var(--white); transform: scale(1.15); box-shadow: 0 0 20px rgba(212,163,115,0.7); }
+        .progress-node.completed { background: var(--green-leaf); color: var(--white); border-color: var(--green-hover); }
+
+        /* --- CANVAS FOTOGRÁFICO --- */
+        .visual-interactive-canvas {
+            height: 380px;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('https://alcompasdeantioquia.com/wp-content/uploads/2022/10/800px-Tamesis_Antioquia.jpg') center/cover no-repeat;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px;
+            text-align: center;
+            overflow: hidden;
+            border-bottom: 2px solid var(--border-color);
+            transition: all 0.5s ease;
+        }
+
+        .canvas-top-hud {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1150px;
+        }
+
+        .badge-clima-iot {
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(6px);
+            color: var(--white);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border: 1px solid var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dialogue-bubble {
+            background: rgba(44, 24, 16, 0.96);
+            backdrop-filter: blur(10px);
+            color: var(--white);
+            padding: 16px 30px;
+            border-radius: 35px;
+            font-size: 0.95rem;
+            border: 1.5px solid var(--accent);
+            max-width: 850px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .dialogue-bubble i { color: var(--accent); font-size: 1.4rem; }
+
+        /* --- CUERPO DE ACCIÓN --- */
+        .game-action-body {
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 35px;
+            background: var(--surface-card);
+        }
+
+        @media (max-width: 1000px) {
+            .game-action-body { grid-template-columns: 1fr; }
+        }
+
+        .action-main-panel h3 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .action-main-panel p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        .choices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 25px;
+        }
+
+        .choice-card {
+            background: var(--bg-canvas);
+            border: 2px solid var(--border-color);
+            padding: 20px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            position: relative;
+        }
+
+        .choice-card:hover {
+            border-color: var(--accent);
+            background: var(--accent-light);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        .choice-card.selected {
+            border-color: var(--green-leaf);
+            background: rgba(45, 90, 39, 0.08);
+            box-shadow: 0 6px 18px rgba(45, 90, 39, 0.2);
+        }
+
+        .choice-card.bad-choice {
+            border-color: var(--warning);
+            background: rgba(211, 84, 0, 0.06);
+        }
+
+        .choice-card h5 {
+            font-size: 1.05rem;
+            color: var(--primary);
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .choice-card p {
+            font-size: 0.84rem;
+            color: var(--text-muted);
+            margin-bottom: 0;
+            line-height: 1.4;
+        }
+
+        /* --- PANEL LATERAL DE TELEMETRÍA Y CRÍTICA --- */
+        .live-score-panel {
+            background: var(--accent-light);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: inset 0 2px 12px rgba(0,0,0,0.04);
+        }
+
+        .score-box-item {
+            background: var(--white);
+            padding: 14px 16px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        .score-box-item span {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .score-box-item h4 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-top: 3px;
+            font-weight: 700;
+        }
+
+        .critica-box {
+            background: #FFF3CD;
+            border: 1px solid var(--warning);
+            border-radius: 12px;
+            padding: 12px;
+            margin-top: 15px;
+            font-size: 0.82rem;
+            color: #856404;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        /* --- NAVEGACIÓN INFERIOR --- */
+        .game-footer-navigation {
+            padding: 25px 40px;
+            background: var(--bg-canvas);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-game-action {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 14px 32px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(44, 24, 16, 0.2);
+        }
+
+        .btn-game-action:hover {
+            background: var(--accent);
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .btn-game-action:disabled {
+            background: #E2D7C5;
+            color: #999;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR ENTERPRISE -->
+    <header>
+        <a href="index.html" class="logo-container" style="text-decoration:none;">
+            <div class="logo-icon"><i class="fa-solid fa-mug-hot"></i></div>
+            <div class="logo-text">
+                <h1>Café para Siempre</h1>
+                <span>Támesis, Antioquia</span>
+            </div>
+        </a>
+        <div class="header-stats-hud">
+            <div class="hud-item"><i class="fa-solid fa-coins"></i> <span id="hud-oro">1,500 COP</span></div>
+            <div class="hud-item"><i class="fa-solid fa-chart-line" style="color:var(--accent);"></i> <span id="hud-veredicto">Evaluando Proceso</span></div>
+        </div>
+        <nav>
+            <a href="index.html" class="btn-nav-back"><i class="fa-solid fa-arrow-left"></i> Volver</a>
+        </nav>
+    </header>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="simulator-stage-wrapper">
+        
+        <div class="stage-top-bar">
+            <div class="stage-title-group">
+                <h2>Simulador Lúdico Enterprise: Camino del Café</h2>
+                <p><i class="fa-solid fa-mountain-sun"></i> Finca La Sierra • Vereda La Alacena • Támesis</p>
+            </div>
+            <div class="game-progress-bar">
+                <div class="progress-node active" id="node-1" onclick="irFase(1)">1</div>
+                <div class="progress-node" id="node-2" onclick="irFase(2)">2</div>
+                <div class="progress-node" id="node-3" onclick="irFase(3)">3</div>
+                <div class="progress-node" id="node-4" onclick="irFase(4)">4</div>
+                <div class="progress-node" id="node-5" onclick="irFase(5)">5</div>
+            </div>
+        </div>
+
+        <!-- CANVAS FOTOGRÁFICO -->
+        <div class="visual-interactive-canvas" id="stage-canvas-bg">
+            <div class="canvas-top-hud">
+                <div class="badge-clima-iot"><i class="fa-solid fa-cloud-sun-rain"></i> Clima Támesis: 21°C | Suelo pH 6.5</div>
+                <div class="badge-clima-iot"><i class="fa-solid fa-user-gear"></i> Criterio Técnico Don Euclides: <span id="hud-animo" style="color:#2ECC71;">Riguroso y Constructivo</span></div>
+            </div>
+            <div class="dialogue-bubble" id="guia-dialogo">
+                <i class="fa-solid fa-user-tie"></i>
+                <span id="texto-guia">Don Euclides: 'Mantengamos los estándares agronómicos altos en La Alacena. Cada decisión técnica impacta directamente la calidad en taza y la valoración SCA.'</span>
+            </div>
+        </div>
+
+        <div class="game-action-body">
+            <div class="action-main-panel">
+                <h3 id="fase-titulo">1. Siembra y Análisis Químico de Suelos</h3>
+                <p id="fase-descripcion">Selecciona la parcela de acuerdo con el análisis de acidez y el árbol genealógico de variedades en la Vereda La Alacena.</p>
+                <div class="choices-grid" id="opciones-contenedor"></div>
+            </div>
+
+            <div class="live-score-panel">
+                <div>
+                    <h4 style="color: var(--primary); margin-bottom: 20px; font-size: 1.05rem; font-family: 'Playfair Display', serif;"><i class="fa-solid fa-chart-pie"></i> Telemetría y Juicio Técnico</h4>
+                    <div class="score-box-item">
+                        <span>Variedad / Genética</span>
+                        <h4 id="stat-variedad">Borbón Rosado</h4>
+                    </div>
+                    <div class="score-box-item">
+                        <span>Proceso Finca</span>
+                        <h4 id="stat-proceso">Proceso Honey</h4>
+                    </div>
+                    <div class="score-box-item">
+                        <span>Calidad en Taza (SCA)</span>
+                        <h4 id="stat-puntaje" style="color: var(--green-leaf);">88.0 PTS</h4>
+                    </div>
+                    <div class="score-box-item">
+                        <span>Valoración de Mercado</span>
+                        <h4 id="stat-precio" style="color: var(--primary);">$44.000 COP / kg</h4>
+                    </div>
+                    <!-- CAJA DE CRÍTICA TÉCNICA -->
+                    <div class="critica-box" id="caja-critica">
+                        "Lote con perfil limpio y excelente potencial SCA. Mantengamos el rigor."
+                    </div>
+                </div>
+                <div style="font-size: 0.75rem; color: var(--text-muted); text-align: center; border-top: 1px solid var(--border-color); padding-top: 15px;">
+                    Café para Siempre ® Engine v8.5 Enterprise
+                </div>
+            </div>
+        </div>
+
+        <div class="game-footer-navigation">
+            <button class="btn-game-action" id="btn-atras" onclick="cambiarPaso(-1)" disabled>
+                <i class="fa-solid fa-arrow-left"></i> Paso Anterior
+            </button>
+            <button class="btn-game-action" id="btn-siguiente" onclick="cambiarPaso(1)">
+                Siguiente Fase <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- SCRIPT DEL SIMULADOR -->
+    <script>
+        let faseActual = 1;
+        const totalFases = 5;
+
+        let simulacion = {
+            variedad: "Borbón Rosado",
+            eleccionVariedadIdx: 0,
+            cosecha: "Cereza 100% Madura (Selectiva)",
+            eleccionCosechaIdx: 0,
+            proceso: "Proceso Honey Controlado",
+            eleccionProcesoIdx: 0,
+            secado: "Marquesinas Elevadas Sombra",
+            eleccionSecadoIdx: 0,
+            tueste: "Tueste Medio de Autor",
+            eleccionTuesteIdx: 0,
+            puntajeFinal: 88.0,
+            animo: "Riguroso",
+            criticaTexto: "Lote prometedor con gran desarrollo aromático.",
+            oro: 1500
+        };
+
+        function actualizarHUD() {
+            document.getElementById('stat-variedad').innerText = simulacion.variedad;
+            document.getElementById('stat-proceso').innerText = simulacion.proceso;
+            document.getElementById('hud-oro').innerText = `${simulacion.oro.toLocaleString()} COP`;
+            document.getElementById('hud-animo').innerText = simulacion.animo;
+            document.getElementById('caja-critica').innerText = `"${simulacion.criticaTexto}"`;
+            
+            let score = 88.0;
+
+            if (simulacion.eleccionVariedadIdx === 1) score += 6.0;
+            else if (simulacion.eleccionVariedadIdx === 0) score += 5.0;
+            else score -= 12.0;
+
+            if (simulacion.eleccionCosechaIdx === 0) score += 3.0;
+            else score -= 15.0;
+
+            if (simulacion.eleccionProcesoIdx === 0) score += 3.0;
+            else if (simulacion.eleccionProcesoIdx === 1) score += 2.0;
+            else score -= 14.0;
+
+            if (simulacion.eleccionSecadoIdx === 0) score += 1.0;
+            else score -= 12.0;
+
+            if (simulacion.eleccionTuesteIdx === 0) score += 1.0;
+            else if (simulacion.eleccionTuesteIdx === 1) score += 0.5;
+            else score -= 12.0;
+
+            simulacion.puntajeFinal = Math.max(62.0, Math.min(94.0, score)).toFixed(1);
+
+            let colorPuntaje = "var(--green-leaf)";
+            if (simulacion.puntajeFinal < 75) {
+                colorPuntaje = "var(--danger)";
+                document.getElementById('hud-veredicto').innerText = "Calidad Deficiente";
+            } else if (simulacion.puntajeFinal < 85) {
+                colorPuntaje = "var(--warning)";
+                document.getElementById('hud-veredicto').innerText = "Perfil Estándar";
+            } else {
+                document.getElementById('hud-veredicto').innerText = "Microlote Élite SCA";
+            }
+
+            document.getElementById('stat-puntaje').style.color = colorPuntaje;
+            document.getElementById('stat-puntaje').innerText = `${simulacion.puntajeFinal} PTS`;
+            
+            let precioKg = (simulacion.puntajeFinal * 500).toLocaleString('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
+            document.getElementById('stat-precio').innerText = `${precioKg} / kg`;
+        }
+
+        function irFase(num) {
+            faseActual = num;
+            sincronizarJuego();
+        }
+
+        function cambiarPaso(dir) {
+            if (faseActual === totalFases && dir > 0) {
+                finalizarYVerResultado();
+                return;
+            }
+
+            faseActual += dir;
+            if (faseActual < 1) faseActual = 1;
+            if (faseActual > totalFases) faseActual = totalFases;
+            sincronizarJuego();
+        }
+
+        function finalizarYVerResultado() {
+            localStorage.setItem('simulacionCafe', JSON.stringify(simulacion));
+            window.location.href = 'resultado.html';
+        }
+
+        function sincronizarJuego() {
+            for (let i = 1; i <= totalFases; i++) {
+                const node = document.getElementById(`node-${i}`);
+                node.className = "progress-node";
+                if (i < faseActual) node.classList.add("completed");
+                if (i === faseActual) node.classList.add("active");
+            }
+
+            document.getElementById('btn-atras').disabled = (faseActual === 1);
+            
+            const btnSiguiente = document.getElementById('btn-siguiente');
+            if (faseActual === totalFases) {
+                btnSiguiente.innerHTML = '¡Generar Certificado & Ver Resultados! <i class="fa-solid fa-mug-hot"></i>';
+                btnSiguiente.style.background = "var(--green-leaf)";
+            } else {
+                btnSiguiente.innerHTML = 'Siguiente Fase <i class="fa-solid fa-arrow-right"></i>';
+                btnSiguiente.style.background = "var(--primary)";
+            }
+
+            renderizarFaseInteractiva();
+        }
+
+        function seleccionarOpcion(tipo, valor, idx) {
+            if(tipo === 'var') {
+                simulacion.variedad = valor;
+                simulacion.eleccionVariedadIdx = idx;
+                if(idx === 2) {
+                    simulacion.animo = "Precaución";
+                    simulacion.criticaTexto = "Variedad comercial masiva; limita el potencial de puntaje SCA en taza.";
+                } else {
+                    simulacion.animo = "Excelente";
+                    simulacion.criticaTexto = "Excelente elección genética. El perfil de taza promete alta distinción.";
+                }
+            } else if(tipo === 'cos') {
+                simulacion.cosecha = valor;
+                simulacion.eleccionCosechaIdx = idx;
+                if(idx === 1) {
+                    simulacion.animo = "Observación";
+                    simulacion.criticaTexto = "Inclusión de granos verdes; esto genera astringencia y merma calidad.";
+                } else {
+                    simulacion.animo = "Satisfactorio";
+                    simulacion.criticaTexto = "Cereza 100% madura. Criterio de recolección altamente profesional.";
+                }
+            } else if(tipo === 'pro') {
+                simulacion.proceso = valor;
+                simulacion.eleccionProcesoIdx = idx;
+                if(idx === 2) {
+                    simulacion.animo = "Alerta";
+                    simulacion.criticaTexto = "Sobrefermentación descontrolada; se perciben notas avinagradas.";
+                } else {
+                    simulacion.animo = "Controlado";
+                    simulacion.criticaTexto = "Proceso de fermentación ejecutado con precisión técnica.";
+                }
+            } else if(tipo === 'sec') {
+                simulacion.secado = valor;
+                simulacion.eleccionSecadoIdx = idx;
+                if(idx === 1) {
+                    simulacion.animo = "Advertencia";
+                    simulacion.criticaTexto = "Secado en piso de cemento directo; riesgo de choque térmico y notas atípicas.";
+                } else {
+                    simulacion.animo = "Óptimo";
+                    simulacion.criticaTexto = "Secado homogéneo en marquesina respetado correctamente.";
+                }
+            } else if(tipo === 'tue') {
+                simulacion.tueste = valor;
+                simulacion.eleccionTuesteIdx = idx;
+                if(idx === 2) {
+                    simulacion.animo = "Crítico";
+                    simulacion.criticaTexto = "Tueste oscuro profundo; se enmascaran los atributos de origen con notas carbonizadas.";
+                } else {
+                    simulacion.animo = "Excepcional";
+                    simulacion.criticaTexto = "Perfil de tueste ideal para resaltar notas de especialidad.";
+                }
+            }
+            actualizarHUD();
+            sincronizarJuego();
+        }
+
+        function renderizarFaseInteractiva() {
+            const titulo = document.getElementById('fase-titulo');
+            const desc = document.getElementById('fase-descripcion');
+            const opciones = document.getElementById('opciones-contenedor');
+            const textoGuia = document.getElementById('texto-guia');
+            const canvasBg = document.getElementById('stage-canvas-bg');
+
+            opciones.innerHTML = "";
+
+            switch(faseActual) {
+                case 1:
+                    titulo.innerText = "1. Siembra y Análisis Químico de Suelos";
+                    desc.innerText = "Selecciona la parcela en la Vereda La Alacena evaluando el pH volcánico y el árbol genealógico genético.";
+                    textoGuia.innerText = "Don Euclides: 'La elección de la variedad define el cielo o el límite de nuestro café. Usemos genética de alta calidad.'";
+                    canvasBg.style.backgroundImage = "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('https://alcompasdeantioquia.com/wp-content/uploads/2022/10/800px-Tamesis_Antioquia.jpg')";
+                    
+                    const vars = [
+                        { t: "Borbón Rosado", desc: "Excelente adaptación de altura y alta dulzura natural.", val: "Borbón Rosado" },
+                        { t: "Geisha de Altura", desc: "Linaje exótico de notas florales a jazmín y acidez brillante.", val: "Geisha Exótico" },
+                        { t: "Variedad Comercial Estándar", desc: "Rendimiento masivo pero bajo perfil en taza de especialidad (-12 PTS).", val: "Comercial Estándar" }
+                    ];
+
+                    vars.forEach((v, idx) => {
+                        const sel = (simulacion.eleccionVariedadIdx === idx) ? "selected" : "";
+                        const badClass = (idx === 2) ? "bad-choice" : "";
+                        opciones.innerHTML += `
+                            <div class="choice-card ${sel} ${badClass}" onclick="seleccionarOpcion('var', '${v.val}', ${idx})">
+                                <h5>${v.t} ${sel ? '<i class="fa-solid fa-circle-check" style="color:var(--green-leaf);"></i>' : ''}</h5>
+                                <p>${v.desc}</p>
+                            </div>
+                        `;
+                    });
+                    break;
+
+                case 2:
+                    titulo.innerText = "2. Cosecha Selectiva (Inspección de Grano)";
+                    desc.innerText = "Inspecciona la canasta y decide si aceptas cerezas maduras o si permites granos verdes defectuosos.";
+                    textoGuia.innerText = "Doña Rosa: 'La recolección manual selectiva asegura que solo procesemos frutos en su punto exacto de maduración.'";
+                    canvasBg.style.backgroundImage = "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=1000&auto=format&fit=crop')";
+                    
+                    const coses = [
+                        { t: "Cereza 100% Madura (Selectiva)", desc: "Selección manual rigurosa con óptimo contenido de azúcares.", val: "Cereza 100% Madura" },
+                        { t: "Cereza Mixta con Inmaduros", desc: "Presencia de frutos verdes que generan astringencia y bajan la puntuación (-15 PTS).", val: "Cereza Mixta (Defecto)" }
+                    ];
+
+                    coses.forEach((c, idx) => {
+                        const sel = (simulacion.eleccionCosechaIdx === idx) ? "selected" : "";
+                        const badClass = (idx === 1) ? "bad-choice" : "";
+                        opciones.innerHTML += `
+                            <div class="choice-card ${sel} ${badClass}" onclick="seleccionarOpcion('cos', '${c.val}', ${idx})">
+                                <h5>${c.t} ${sel ? '<i class="fa-solid fa-circle-check" style="color:var(--green-leaf);"></i>' : ''}</h5>
+                                <p>${c.desc}</p>
+                            </div>
+                        `;
+                    });
+                    break;
+
+                case 3:
+                    titulo.innerText = "3. Fermentación en Tanques";
+                    desc.innerText = "Monitorea el proceso químico del mucílago para evitar la sobrefermentación avinagrada.";
+                    textoGuia.innerText = "Don Euclides: 'Un control preciso de tiempos y temperaturas en el tanque evita notas avinagradas indeseadas.'";
+                    canvasBg.style.backgroundImage = "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1000&auto=format&fit=crop')";
+                    
+                    const procs = [
+                        { t: "Proceso Honey Controlado", desc: "Mucílago parcialmente intacto para un perfil dulce y equilibrado.", val: "Proceso Honey" },
+                        { t: "Proceso Lavado Limpio", desc: "Remoción de pulpa para destacar notas cítricas y claridad.", val: "Proceso Lavado" },
+                        { t: "Sobrefermentación Prolongada", desc: "Tiempo excesivo en tanque que genera notas acéticas y avinagradas (-14 PTS).", val: "Sobrefermentación Prolongada" }
+                    ];
+
+                    procs.forEach((p, idx) => {
+                        const sel = (simulacion.eleccionProcesoIdx === idx) ? "selected" : "";
+                        const badClass = (idx === 2) ? "bad-choice" : "";
+                        opciones.innerHTML += `
+                            <div class="choice-card ${sel} ${badClass}" onclick="seleccionarOpcion('pro', '${p.val}', ${idx})">
+                                <h5>${p.t} ${sel ? '<i class="fa-solid fa-circle-check" style="color:var(--green-leaf);"></i>' : ''}</h5>
+                                <p>${p.desc}</p>
+                            </div>
+                        `;
+                    });
+                    break;
+
+                case 4:
+                    titulo.innerText = "4. Secado en Marquesinas";
+                    desc.innerText = "Vigila el porcentaje de humedad para evitar alterar el grano en superficies inadecuadas.";
+                    textoGuia.innerText = "Doña Rosa: 'El secado en marquesinas elevadas garantiza una pérdida hídrica uniforme y protege el grano.'";
+                    canvasBg.style.backgroundImage = "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=1000&auto=format&fit=crop')";
+                    
+                    const secs = [
+                        { t: "Marquesinas Elevadas Sombra", desc: "Control térmico adecuado y óptima circulación de aire.", val: "Marquesinas Elevadas" },
+                        { t: "Secado en Piso de Cemento", desc: "Exposición a choques térmicos y riesgos de sabores atípicos (-12 PTS).", val: "Piso de Cemento" }
+                    ];
+
+                    secs.forEach((s, idx) => {
+                        const sel = (simulacion.eleccionSecadoIdx === idx) ? "selected" : "";
+                        const badClass = (idx === 1) ? "bad-choice" : "";
+                        opciones.innerHTML += `
+                            <div class="choice-card ${sel} ${badClass}" onclick="seleccionarOpcion('sec', '${s.val}', ${idx})">
+                                <h5>${s.t} ${sel ? '<i class="fa-solid fa-circle-check" style="color:var(--green-leaf);"></i>' : ''}</h5>
+                                <p>${s.desc}</p>
+                            </div>
+                        `;
+                    });
+                    break;
+
+                case 5:
+                    titulo.innerText = "5. Curva de Tueste y Veredicto Final";
+                    desc.innerText = "Define el perfil de tueste final. Un tueste inadecuado puede ocultar los atributos del microlote.";
+                    textoGuia.innerText = "Don Euclides: 'El tueste es la etapa final donde revelamos el verdadero carácter del café de Támesis.'";
+                    canvasBg.style.backgroundImage = "linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?q=80&w=1000&auto=format&fit=crop')";
+                    
+                    const tues = [
+                        { t: "Tueste Medio de Autor", desc: "Balance ideal entre dulzor, cuerpo y notas aromáticas.", val: "Tueste Medio" },
+                        { t: "Tueste Claro Frutal", desc: "Acidez brillante y gran expresión floral.", val: "Tueste Claro" },
+                        { t: "Tueste Oscuro Profundo", desc: "Perfil agresivo que enmascara el origen con notas amargas (-12 PTS).", val: "Tueste Oscuro" }
+                    ];
+
+                    tues.forEach((t, idx) => {
+                        const sel = (simulacion.eleccionTuesteIdx === idx) ? "selected" : "";
+                        const badClass = (idx === 2) ? "bad-choice" : "";
+                        opciones.innerHTML += `
+                            <div class="choice-card ${sel} ${badClass}" onclick="seleccionarOpcion('tue', '${t.val}', ${idx})">
+                                <h5>${t.t} ${sel ? '<i class="fa-solid fa-circle-check" style="color:var(--green-leaf);"></i>' : ''}</h5>
+                                <p>${t.desc}</p>
+                            </div>
+                        `;
+                    });
+
+                    opciones.innerHTML += `
+                        <div style="grid-column: 1 / -1; background: var(--accent-light); padding: 18px; border-radius: 12px; text-align: center; border: 1.5px dashed var(--accent);">
+                            <h4 style="color:var(--primary); margin-bottom:4px;">🎉 ¡Proceso Finalizado en Támesis!</h4>
+                            <p style="font-size:0.88rem; color:var(--text-dark);">Puntaje SCA Final: <b style="color:var(--green-leaf); font-size:1.1rem;">${simulacion.puntajeFinal} PTS</b>. Haz clic abajo para generar el certificado oficial y validar la categoría del lote.</p>
+                        </div>
+                    `;
+                    break;
+            }
+            actualizarHUD();
+        }
+
+        window.onload = function() {
+            sincronizarJuego();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión Agrícola Finca | Café para Siempre - Támesis</title>
+    
+    <!-- Fuentes e Iconos certificados de Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+
+    <style>
+        :root {
+            --espresso: #1E120B;
+            --espresso-dark: #0D0704;
+            --gold-accent: #C68B59;
+            --gold-light: #F7EFE5;
+            --tamesis-green: #244822;
+            --tamesis-green-hover: #1A3618;
+            --bg-canvas: #F8F6F0;
+            --surface-card: #FFFFFF;
+            --border-subtle: #E8E2D5;
+            --text-main: #2C221E;
+            --text-muted: #7A6F68;
+            --white: #FFFFFF;
+            --danger: #C0392B;
+            --danger-bg: #FADBD8;
+            --success: #27AE60;
+            --success-bg: #EAFAF1;
+            --shadow-card: 0 10px 30px rgba(30, 18, 11, 0.05);
+            --shadow-hover: 0 20px 40px rgba(30, 18, 11, 0.1);
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-canvas);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            font-size: 22px;
+            vertical-align: middle;
+            line-height: 1;
+        }
+
+        aside {
+            width: 290px;
+            background: var(--espresso-dark);
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: fixed;
+            height: 100vh;
+            border-right: 1px solid rgba(198, 139, 89, 0.2);
+            z-index: 100;
+        }
+
+        .sidebar-brand-box {
+            padding: 30px 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .sidebar-brand-box img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid var(--gold-accent);
+            object-fit: cover;
+        }
+
+        .sidebar-brand-info h2 {
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: -0.3px;
+        }
+
+        .sidebar-brand-info span {
+            font-size: 0.72rem;
+            color: var(--gold-accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 24px 16px;
+            flex-grow: 1;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 8px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 13px 18px;
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background: var(--gold-accent);
+            color: var(--espresso-dark);
+            transform: translateX(4px);
+        }
+
+        .sidebar-footer-box {
+            padding: 20px 24px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .btn-logout-enterprise {
+            width: 100%;
+            background: rgba(192, 57, 43, 0.15);
+            color: #E74C3C;
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s;
+        }
+
+        .btn-logout-enterprise:hover {
+            background: var(--danger);
+            color: var(--white);
+        }
+
+        main {
+            margin-left: 290px;
+            flex-grow: 1;
+            padding: 40px;
+        }
+
+        .enterprise-topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+            background: var(--surface-card);
+            padding: 24px 32px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-subtle);
+            box-shadow: var(--shadow-card);
+        }
+
+        .topbar-titles h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--espresso);
+            letter-spacing: -0.5px;
+        }
+
+        .topbar-titles p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .user-pill-badge {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--gold-light);
+            padding: 8px 18px;
+            border-radius: 30px;
+            border: 1px solid var(--gold-accent);
+        }
+
+        .user-pill-badge img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--gold-accent);
+        }
+
+        .finca-card {
+            background: var(--surface-card);
+            border-radius: var(--radius-md);
+            padding: 30px;
+            border: 1px solid var(--border-subtle);
+            box-shadow: var(--shadow-card);
+            margin-bottom: 35px;
+        }
+
+        .card-header-finca {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .card-header-finca h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--espresso);
+        }
+
+        .btn-finca-action {
+            background: var(--tamesis-green);
+            color: var(--white);
+            border: none;
+            padding: 11px 22px;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 0.88rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.2s;
+        }
+
+        .btn-finca-action:hover {
+            background: var(--tamesis-green-hover);
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background: var(--surface-subtle);
+            color: var(--espresso);
+            padding: 16px 20px;
+            font-weight: 700;
+            border-bottom: 2px solid var(--border-subtle);
+        }
+
+        td {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-subtle);
+            color: var(--text-main);
+            vertical-align: middle;
+        }
+
+        tr:hover { background: rgba(198, 139, 89, 0.02); }
+
+        .status-pill {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        .status-pill.success { background: var(--success-bg); color: var(--success); }
+        .status-pill.warning { background: #FEF9E7; color: #D4AC0D; }
+    </style>
+</head>
+<body>
+
+    <aside>
+        <div>
+            <div class="sidebar-brand-box">
+                <img src="https://alcompasdeantioquia.com/wp-content/uploads/2022/10/800px-Tamesis_Antioquia.jpg" alt="Támesis">
+                <div class="sidebar-brand-info">
+                    <h2>Café para Siempre</h2>
+                    <span>Módulo Agrícola Finca</span>
+                </div>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li><a href="admin-finca.html" class="active"><span class="material-symbols-outlined">landscape</span> Control Agrícola Támesis</a></li>
+                <li><a href="admin-dashboard.html"><span class="material-symbols-outlined">dashboard</span> Panel Gerencial</a></li>
+                <li><a href="tienda.html"><span class="material-symbols-outlined">storefront</span> Ver Tienda Pública</a></li>
+                <li><a href="index.html"><span class="material-symbols-outlined">public</span> Página Principal</a></li>
+            </ul>
+        </div>
+        
+        <div class="sidebar-footer-box">
+            <a href="login.html" class="btn-logout-enterprise" onclick="cerrarSesionSistema()">
+                <span class="material-symbols-outlined">power_settings_new</span> Cerrar Sesión
+            </a>
+        </div>
+    </aside>
+
+    <main>
+        <header class="enterprise-topbar">
+            <div class="topbar-titles">
+                <h1>Operación Agrícola en Finca</h1>
+                <p>Supervisión de cultivos, marquesinas de secado, clima y personal en Támesis, Antioquia</p>
+            </div>
+            <div class="user-pill-badge">
+                <img src="https://alcompasdeantioquia.com/wp-content/uploads/2022/10/800px-Tamesis_Antioquia.jpg" alt="Admin">
+                <div>
+                    <div style="font-size:0.88rem; font-weight:800; color:var(--espresso);">Administrador Finca</div>
+                    <div style="font-size:0.75rem; color:var(--success); font-weight:700;">● Clima Estable (21°C)</div>
+                </div>
+            </div>
+        </header>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado de la Cata y Certificación | Café para Siempre - Támesis</title>
+    <!-- Fuentes e Iconos -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #2C1810;
+            --primary-dark: #120A06;
+            --accent: #D4A373;
+            --accent-light: #FAEDCD;
+            --green-leaf: #2D5A27;
+            --bg-canvas: #F8F9FA;
+            --surface-card: #FFFFFF;
+            --border-color: #E2D7C5;
+            --text-dark: #1F1F1F;
+            --text-muted: #6C757D;
+            --white: #FFFFFF;
+            --shadow-game: 0 20px 45px rgba(44, 24, 16, 0.15);
+            --radius-game: 24px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-canvas);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* NAVBAR */
+        header {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            background-color: rgba(44, 24, 16, 0.98);
+            backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 5%;
+            z-index: 1000;
+            border-bottom: 2px solid var(--accent);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 44px; height: 44px;
+            background: var(--accent);
+            color: var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+        }
+
+        .logo-text h1 {
+            color: var(--accent);
+            font-size: 1.25rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .logo-text span {
+            color: #A89F95;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            display: block;
+        }
+
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.92rem;
+            transition: color 0.3s;
+        }
+        nav a:hover { color: var(--accent); }
+
+        .btn-nav-back {
+            background: rgba(212, 163, 115, 0.2);
+            border: 1px solid var(--accent);
+            color: var(--accent) !important;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-weight: 600 !important;
+            transition: all 0.3s;
+        }
+        .btn-nav-back:hover { background: var(--accent); color: var(--primary) !important; }
+
+        /* CONTENEDOR PRINCIPAL DE RESULTADOS */
+        .resultado-wrapper {
+            max-width: 950px;
+            width: 90%;
+            margin: 120px auto 60px auto;
+            background: var(--surface-card);
+            border-radius: var(--radius-game);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-game);
+            padding: 50px;
+            text-align: center;
+        }
+
+        .resultado-header span {
+            display: inline-block;
+            background: rgba(45, 90, 39, 0.15);
+            color: var(--green-leaf);
+            border: 1px solid var(--green-leaf);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .resultado-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.4rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .resultado-header p {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 35px auto;
+            line-height: 1.6;
+        }
+
+        /* CERTIFICADO SCA */
+        .certificado-card {
+            background: var(--accent-light);
+            border: 2px dashed var(--accent);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 35px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            text-align: left;
+        }
+
+        .cert-item {
+            background: var(--white);
+            padding: 18px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .cert-item span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .cert-item h4 {
+            font-size: 1.15rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* NOTAS DE CATA */
+        .notas-cata-box {
+            background: var(--bg-canvas);
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 35px;
+            text-align: left;
+        }
+
+        .notas-cata-box h4 {
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notas-cata-box p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* ACCIONES FINALES */
+        .acciones-finales {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-accion-cert {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(44, 24, 16, 0.2);
+        }
+
+        .btn-accion-cert:hover {
+            background: var(--accent);
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .btn-secundario {
+            background: var(--green-leaf);
+        }
+        .btn-secundario:hover {
+            background: #1e3f1a;
+            color: var(--white);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header>
+        <a href="simulador.html" class="logo-container" style="text-decoration:none;">
+            <div class="logo-icon"><i class="fa-solid fa-mug-hot"></i></div>
+            <div class="logo-text">
+                <h1>Café para Siempre</h1>
+                <span>Támesis, Antioquia</span>
+            </div>
+        </a>
+        <nav>
+            <a href="simulador.html" class="btn-nav-back"><i class="fa-solid fa-arrow-left"></i> Volver al Simulador</a>
+        </nav>
+    </header>
+
+    <!-- CONTENEDOR DE RESULTADOS -->
+    <div class="resultado-wrapper">
+        
+        <div class="resultado-header">
+            <span><i class="fa-solid fa-certificate"></i> Protocolo Oficial SCA</span>
+            <h2>¡Lote Certificado con Éxito!</h2>
+            <p>Has completado el recorrido agronómico y de procesamiento en nuestras laderas de Támesis. Este es el perfil definitivo obtenido en taza:</p>
+        </div>
+
+        <div class="certificado-card">
+            <div class="cert-item">
+                <span>Variedad Seleccionada</span>
+                <h4 id="res-var">Borbón Rosado</h4>
+            </div>
+            <div class="cert-item">
+                <span>Proceso en Finca</span>
+                <h4 id="res-proc">Honey</h4>
+            </div>
+            <div class="cert-item">
+                <span>Perfil de Tueste</span>
+                <h4 id="res-tue">Tueste Medio</h4>
+            </div>
+            <div class="cert-item">
+                <span>Puntaje SCA Final</span>
+                <h4 id="res-score" style="color: var(--green-leaf);">89.5 / 100 PTS</h4>
+            </div>
+        </div>
+
+        <div class="notas-cata-box">
+            <h4><i class="fa-solid fa-wine-glass-empty" style="color: var(--accent);"></i> Perfil Sensorial y Notas de Cata</h4>
+            <p id="res-notas">
+                Impresionante fragancia floral con notas dominantes a jazmín y panela orgánica. En boca presenta una acidez cítrica muy brillante similar a la mandarina, con un cuerpo sedoso y un retrogusto prolongado a chocolate con leche.
+            </p>
+        </div>
+
+        <div class="acciones-finales">
+            <a href="simulador.html" class="btn-accion-cert"><i class="fa-solid fa-rotate-right"></i> Simular Otro Lote</a>
+            <button onclick="intentarComprarLote()" class="btn-accion-cert btn-secundario" style="border:none; cursor:pointer;">
+                <i class="fa-solid fa-store"></i> Comprar este Café en Tienda
+            </button>
+        </div>
+
+    </div>
+
+    <!-- SCRIPT DE VALIDACIÓN Y CARGA -->
+    <script>
+        window.onload = function() {
+            // Cargar los datos guardados de la simulación
+            const savedData = localStorage.getItem('simulacionCafe');
+            if(savedData) {
+                const data = JSON.parse(savedData);
+                document.getElementById('res-var').innerText = data.variedad;
+                document.getElementById('res-proc').innerText = data.proceso;
+                document.getElementById('res-tue').innerText = data.tueste;
+                document.getElementById('res-score').innerText = `${data.puntajeFinal} / 100 PTS`;
+            }
+        };
+
+        function intentarComprarLote() {
+            // Validamos estrictamente si el usuario ha iniciado sesión de forma real
+            const usuarioAutenticado = localStorage.getItem('usuarioLogueado');
+
+            if (!usuarioAutenticado) {
+                // Si no hay sesión activa, alertamos y lo enviamos al login con seguridad
+                localStorage.setItem('pendienteCompra', 'true');
+                alert("Debes iniciar sesión o registrarte para adquirir este lote exclusivo de Támesis.");
+                window.location.href = 'login.html';
+            } else {
+                // Si ya inició sesión legítimamente, lo mandamos a la tienda
+                window.location.href = 'tienda.html';
+            }
+        }
+    </script>
+</body>
+</html>

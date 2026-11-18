@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Café para Siempre - Támesis, Antioquia | Enterprise Global Ecosystem</title>
+    <!-- Fuentes e Iconos -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google AI / Material Symbols para máxima profesionalidad visual -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+    <style>
+        :root {
+            --primary: #2C1810;
+            --primary-dark: #1A0F0A;
+            --accent: #D4A373;
+            --accent-hover: #C28F5F;
+            --green-leaf: #2D5A27;
+            --green-hover: #1E3F1A;
+            --bg-light: #FAEDCD;
+            --bg-body: #F8F9FA;
+            --text-dark: #1F1F1F;
+            --text-muted: #6C757D;
+            --white: #FFFFFF;
+            --border-color: #E2D7C5;
+            --danger: #D90429;
+            --shadow-sm: 0 4px 12px rgba(44, 24, 16, 0.05);
+            --shadow-md: 0 10px 30px rgba(44, 24, 16, 0.1);
+            --shadow-lg: 0 20px 40px rgba(44, 24, 16, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- BARRA SUPERIOR DE TELEMETRÍA EN VIVO --- */
+        .top-status-bar {
+            background: var(--green-leaf);
+            color: var(--white);
+            font-size: 0.78rem;
+            text-align: center;
+            padding: 8px 15px;
+            font-weight: 600;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1300;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+            flex-wrap: wrap;
+        }
+
+        /* --- HEADER Y NAVEGACIÓN --- */
+        header {
+            position: fixed;
+            top: 36px;
+            left: 0;
+            width: 100%;
+            background-color: rgba(44, 24, 16, 0.97);
+            backdrop-filter: blur(12px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 5%;
+            z-index: 1200;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+            border-bottom: 1px solid rgba(212, 163, 115, 0.25);
+        }
+
+        .logo {
+            color: var(--accent);
+            font-size: 1.5rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .logo i { font-size: 1.8rem; color: var(--accent); }
+
+        nav {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover { color: var(--accent); }
+
+        .btn-login {
+            background-color: var(--accent);
+            color: var(--primary) !important;
+            padding: 8px 22px;
+            border-radius: 25px;
+            font-weight: 700 !important;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(212, 163, 115, 0.3);
+        }
+
+        .btn-login:hover {
+            background-color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        /* --- PORTADA / HERO --- */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), 
+                        url('https://alcompasdeantioquia.com/wp-content/uploads/2022/10/800px-Tamesis_Antioquia.jpg') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--white);
+            padding: 0 20px;
+            margin-top: 36px;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 4.2rem;
+            margin-bottom: 12px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+            font-weight: 900;
+            letter-spacing: -1.5px;
+        }
+
+        .hero .subtitle {
+            font-size: 1.4rem;
+            color: var(--accent);
+            margin-bottom: 22px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            max-width: 750px;
+            margin-bottom: 35px;
+            line-height: 1.7;
+            color: #EFEFEF;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-hero {
+            background-color: var(--green-leaf);
+            color: var(--white);
+            padding: 15px 35px;
+            border: none;
+            border-radius: 35px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-hero:hover {
+            background-color: var(--green-hover);
+            transform: translateY(-3px);
+        }
+
+        .btn-hero-simulador {
+            background-color: var(--accent);
+            color: var(--primary);
+            padding: 15px 35px;
+            border-radius: 35px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-hero-simulador:hover {
+            background-color: var(--white);
+            transform: translateY(-3px);
+        }
+
+        /* --- LABORATORIO SENSORIAL MASIVO --- */
+        .lab-section {
+            max-width: 1400px;
+            margin: 70px auto 0;
+            padding: 0 5%;
+        }
+
+        .lab-title-box {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .lab-title-box h2 {
+            font-size: 2.4rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+        }
+
+        .lab-title-box p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .mega-tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .mega-tool-card {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mega-tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--green-leaf));
+        }
+
+        .mega-tool-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--accent);
+        }
+
+        .mega-tool-card h3 {
+            color: var(--primary);
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+        }
+
+        .mega-tool-card h3 i { color: var(--accent); font-size: 1.4rem; }
+
+        .mega-tool-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 18px;
+            line-height: 1.6;
+        }
+
+        .tool-form-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .tool-form-group select, .tool-form-group input {
+            flex: 1;
+            min-width: 140px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            outline: none;
+            background: #F8F9FA;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .btn-tool-action {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 12px 22px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .btn-tool-action:hover { background: var(--green-leaf); transform: scale(1.02); }
+
+        .tool-output-panel {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 0.88rem;
+            border-left: 4px solid var(--green-leaf);
+            min-height: 60px;
+            color: var(--primary);
+            line-height: 1.5;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+
+        /* --- SECCIÓN CATÁLOGO / TIENDA --- */
+        .section-catalogo {
+            padding: 80px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .catalogo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+            background: var(--white);
+            padding: 25px 35px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+
+        .catalogo-header h2 {
+            color: var(--primary);
+            font-size: 2.2rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 900;
+        }
+
+        .contador-badge {
+            background-color: var(--green-leaf);
+            color: var(--white);
+            padding: 6px 18px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .grid-matriz {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 35px;
+        }
+
+        .item-card {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .item-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent);
+        }
+
+        .bolsa-container {
+            height: 250px;
+            background: radial-gradient(circle at center, #3D2317 0%, #120A06 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 20px;
+        }
+
+        .bolsa-fisica {
+            width: 155px;
+            height: 200px;
+            background: linear-gradient(135deg, #4A2B1D 0%, #22120B 100%);
+            border-radius: 8px 8px 16px 16px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.65), inset 0 2px 6px rgba(255,255,255,0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 10px;
+            position: relative;
+            border: 1px solid rgba(212, 163, 115, 0.45);
+            transition: transform 0.3s ease;
+        }
+
+        .item-card:hover .bolsa-fisica { transform: scale(1.05) rotate(1deg); }
+
+        .bolsa-valvula {
+            width: 14px; height: 14px; background: #0A0301; border-radius: 50%; border: 1.5px solid var(--accent); position: absolute; top: 15px;
+        }
+
+        .bolsa-etiqueta-real {
+            background: #FDFBF7; width: 100%; padding: 10px 6px; text-align: center; border-radius: 5px; margin-top: 35px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .bolsa-etiqueta-real .etiqueta-brand { font-size: 0.68rem; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1.5px solid var(--accent); padding-bottom: 3px; margin-bottom: 3px; }
+        .bolsa-etiqueta-real .etiqueta-variedad { font-size: 0.64rem; font-weight: 700; color: var(--green-leaf); }
+        .bolsa-etiqueta-real .etiqueta-proceso { font-size: 0.55rem; color: #666; font-weight: 500; }
+
+        .badge-id { position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.8); color: var(--white); font-size: 0.78rem; padding: 4px 10px; border-radius: 6px; font-weight: 700; }
+        .badge-peso { position: absolute; top: 15px; right: 15px; background: var(--green-leaf); color: var(--white); font-size: 0.78rem; padding: 4px 10px; border-radius: 6px; font-weight: 800; }
+
+        .item-body { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .item-title { font-size: 1.2rem; color: var(--primary); font-weight: 800; margin-bottom: 12px; }
+
+        .molienda-box { margin-bottom: 15px; }
+        .molienda-box label { font-size: 0.82rem; font-weight: 700; color: var(--primary); display: block; margin-bottom: 5px; }
+        .molienda-box select { width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 0.85rem; background: #F8F9FA; color: var(--text-dark); outline: none; font-weight: 500; }
+
+        .item-specs { font-size: 0.86rem; color: #555; margin-bottom: 18px; line-height: 1.6; }
+        .item-specs div { display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px dashed #EAEAEA; padding-bottom: 4px; }
+        .item-specs span:first-child { color: #777; font-weight: 500; }
+        .item-specs span:last-child { color: var(--primary); font-weight: 700; }
+
+        .item-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 15px; border-top: 1px solid #F0F0F0; }
+        .precio-tag { font-size: 1.4rem; font-weight: 900; color: var(--green-leaf); }
+        .stock-tag { font-size: 0.82rem; font-weight: 700; color: #D90429; background-color: #FFE5E5; padding: 5px 12px; border-radius: 6px; }
+
+        .btn-accion { width: 100%; margin-top: 15px; padding: 13px; background-color: var(--primary); color: var(--white); border: none; border-radius: 10px; font-weight: 700; cursor: pointer; text-align: center; text-decoration: none; display: block; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(44, 24, 16, 0.15); }
+        .btn-accion:hover { background-color: var(--accent); color: var(--primary); transform: translateY(-2px); }
+
+        /* PAGINACIÓN */
+        .paginacion-wrapper { display: flex; justify-content: center; align-items: center; gap: 12px; margin-top: 50px; }
+        .page-btn { width: 45px; height: 45px; background: var(--white); border: 1px solid var(--border-color); color: var(--primary); font-weight: 700; border-radius: 12px; cursor: pointer; transition: all 0.3s; display: flex; justify-content: center; align-items: center; box-shadow: var(--shadow-sm); }
+        .page-btn.active, .page-btn:hover { background-color: var(--primary); color: var(--white); border-color: var(--primary); transform: translateY(-2px); }
+
+        /* --- SECCIÓN HISTORIA Y COMUNIDAD --- */
+        .historia-section { background-color: var(--white); padding: 100px 10%; margin-top: 80px; border-top: 4px solid var(--accent); }
+        .historia-container { max-width: 1000px; margin: 0 auto; text-align: center; }
+        .historia-container h2 { font-size: 2.6rem; color: var(--primary); margin-bottom: 25px; font-weight: 900; }
+        .historia-container p { font-size: 1.1rem; color: #555; line-height: 1.9; margin-bottom: 25px; text-align: justify; }
+
+        .historia-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 50px; text-align: left; }
+        .historia-card { background: #F8F9FA; padding: 30px; border-radius: 16px; border-left: 5px solid var(--green-leaf); box-shadow: var(--shadow-sm); }
+        .historia-card h3 { color: var(--primary); font-size: 1.2rem; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; font-weight: 800; }
+        .historia-card h3 i { color: var(--green-leaf); font-size: 1.4rem; }
+        .historia-card p { font-size: 0.95rem; margin-bottom: 0; text-align: left; }
+
+        /* --- WIDGET DE INTELIGENCIA ARTIFICIAL PROFESIONAL (IA GOOGLE-LEVEL) --- */
+        .ai-assistant-wrapper {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1500;
+        }
+
+        .ai-fab-btn {
+            width: 65px;
+            height: 65px;
+            background: linear-gradient(135deg, var(--primary) 0%, #4A2B1D 100%);
+            color: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(44, 24, 16, 0.4);
+            border: 2px solid var(--accent);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .ai-fab-btn:hover {
+            transform: scale(1.1);
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        .ai-fab-btn::after {
+            content: '';
+            position: absolute;
+            top: 2px; right: 2px;
+            width: 14px; height: 14px;
+            background-color: var(--green-leaf);
+            border: 2px solid var(--white);
+            border-radius: 50%;
+            animation: pulse-ai 2s infinite;
+        }
+
+        @keyframes pulse-ai {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(45, 90, 39, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(45, 90, 39, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(45, 90, 39, 0); }
+        }
+
+        .ai-chat-window {
+            position: absolute;
+            bottom: 85px;
+            right: 0;
+            width: 390px;
+            height: 540px;
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+            display: none;
+            flex-direction: column;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            animation: slideUpAI 0.3s ease forwards;
+        }
+
+        @keyframes slideUpAI {
+            from { opacity: 0; transform: translateY(20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .ai-chat-header {
+            background: var(--primary);
+            color: var(--white);
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .ai-header-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ai-avatar {
+            width: 38px; height: 38px;
+            background: var(--accent);
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+
+        .ai-header-text h4 { font-size: 0.95rem; font-weight: 800; color: var(--accent); }
+        .ai-header-text span { font-size: 0.72rem; color: #CCC; display: flex; align-items: center; gap: 4px; }
+        .ai-header-text span::before { content: ''; width: 6px; height: 6px; background: #2ECC71; border-radius: 50%; display: inline-block; }
+
+        .ai-close-btn {
+            background: none; border: none; color: var(--white); font-size: 1.2rem; cursor: pointer; transition: color 0.2s;
+        }
+        .ai-close-btn:hover { color: var(--accent); }
+
+        .ai-chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #FDFBF7;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .ai-msg {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-size: 0.86rem;
+            line-height: 1.5;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        .ai-msg.bot {
+            background: var(--white);
+            color: var(--text-dark);
+            align-self: flex-start;
+            border-bottom-left-radius: 3px;
+            border: 1px solid var(--border-color);
+        }
+
+        .ai-msg.user {
+            background: var(--primary);
+            color: var(--white);
+            align-self: flex-end;
+            border-bottom-right-radius: 3px;
+        }
+
+        .ai-quick-chips {
+            display: flex;
+            gap: 8px;
+            padding: 8px 15px;
+            background: var(--white);
+            overflow-x: auto;
+            border-top: 1px solid #EEE;
+        }
+
+        .chip {
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            color: var(--primary);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .chip:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        .ai-chat-input-area {
+            padding: 12px 15px;
+            background: var(--white);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .ai-chat-input-area input {
+            flex: 1;
+            padding: 10px 15px;
+            border-radius: 25px;
+            border: 1px solid var(--border-color);
+            outline: none;
+            font-size: 0.85rem;
+            background: #F8F9FA;
+        }
+
+        .ai-send-btn {
+            background: var(--green-leaf);
+            color: var(--white);
+            border: none;
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.2s;
+        }
+        .ai-send-btn:hover { background: var(--green-hover); }
+
+        /* --- FOOTER GLOBAL --- */
+        footer { background-color: var(--primary-dark); color: #A0A0A0; padding: 50px 5%; text-align: center; font-size: 0.95rem; border-top: 1px solid rgba(212, 163, 115, 0.25); }
+        footer p { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <!-- BARRA SUPERIOR DE TELEMETRÍA EN VIVO -->
+    <div class="top-status-bar">
+        <span><i class="fa-solid fa-cloud-sun"></i> Támesis, Antioquia: 21°C • Finca La Sierra (1,900 m.s.n.m.)</span>
+        <span>|</span>
+        <span><i class="fa-solid fa-shield-heart"></i> Compromiso Cero Intermediarios & Carbono Neutral</span>
+        <span>|</span>
+        <span><i class="fa-solid fa-seedling"></i> Lote Activo: Anaeróbico Honey Premium</span>
+    </div>
+
+    <!-- HEADER / NAVEGACIÓN -->
+    <header>
+        <a href="index.html" class="logo">
+            <i class="fa-solid fa-mug-hot"></i> Café para Siempre
+        </a>
+        <nav>
+            <a href="#inicio">Inicio</a>
+            <a href="#laboratorio">Laboratorio Sensorial</a>
+            <a href="#catalogo">Tienda Enterprise</a>
+            <a href="#historia">Nuestra Finca</a>
+            <a href="simulador.html" style="color: var(--accent); font-weight:800;"><i class="fa-solid fa-seedling"></i> Simulador</a>
+            <a href="login.html" class="btn-login"><i class="fa-solid fa-user"></i> Iniciar Sesión</a>
+        </nav>
+    </header>
+
+    <!-- PORTADA / HERO -->
+    <section class="hero" id="inicio">
+        <h1>Café para Siempre</h1>
+        <div class="subtitle"><i class="fa-solid fa-location-dot"></i> Támesis, Antioquia</div>
+        <p>Tradición, pasión y la riqueza de las tierras tamesinas en cada taza. Ecosistema digital de alta ingeniería conectando la cosecha familiar directamente con tu hogar bajo estándares globales de especialidad.</p>
+        
+        <div class="hero-buttons">
+            <a href="#catalogo" class="btn-hero"><i class="fa-solid fa-store"></i> Explorar Catálogo Global</a>
+            <a href="simulador.html" class="btn-hero-simulador"><i class="fa-solid fa-seedling"></i> Simulador de Proceso</a>
+        </div>
+    </section>
+
+    <!-- LABORATORIO SENSORIAL MASIVO -->
+    <section class="lab-section" id="laboratorio">
+        <div class="lab-title-box">
+            <h2>Laboratorio Sensorial & Herramientas de Precisión</h2>
+            <p>Algoritmos avanzados e interfaces interactivas diseñadas para elevar la experiencia del café de origen.</p>
+        </div>
+
+        <div class="mega-tools-grid">
+            <!-- Herramienta 1: ¿Con qué acompañar tu café? -->
+            <div class="mega-tool-card">
+                <div>
+                    <h3><i class="fa-solid fa-utensils"></i> ¿Con qué acompañar tu café?</h3>
+                    <p>Selecciona tu antojo o tu comida y descubre con cuál café de Támesis combina mejor:</p>
+                    <div class="tool-form-group">
+                        <select id="sel-comida">
+                            <option value="arepa-queso">Arepa con quesito </option>
+                            <option value="arepa-huevo">Arepa con huevo </option>
+                            <option value="arepa-chocolo">Arepa de chócolo con queso</option>
+                            <option value="buñuelo-pandequeso">Buñuelo o pandequeso </option>
+                            <option value="parva-dulce">Parva dulce </option>
+                            <option value="torta-chocolate">Torta de chocolate casera</option>
+                            
+                        </select>
+                        <button class="btn-tool-action" onclick="recomendarMaridaje()">Ver combinación</button>
+                    </div>
+                </div>
+                <div class="tool-output-panel" id="out-maridaje">Elige tu antojo y descubre el café de la finca ideal para acompañarlo.</div>
+            </div>
+
+            <!-- Herramienta 2: Calculadora de Tazas a Bolsas -->
+            <div class="mega-tool-card">
+                <div>
+                    <h3><i class="fa-solid fa-calculator"></i> Calculadora de Consumo (Tazas a Bolsas)</h3>
+                    <p>Ingresa cuántas tazas de café tomas al día y calcularemos automáticamente cuántas bolsas de 500g necesitas al mes:</p>
+                    <div class="tool-form-group">
+                        <input type="number" id="inp-tazas" min="1" max="30" value="2" placeholder="Tazas al día">
+                        <button class="btn-tool-action" onclick="calcularBolsasMes()">Calcular</button>
+                    </div>
+                </div>
+                <div class="tool-output-panel" id="out-calculadora">Calculando consumo mensual basado en rendimiento estándar de extracción...</div>
+            </div>
+
+            <!-- Herramienta 3: Rastreador de Lote Finca (Batch ID) -->
+            <div class="mega-tool-card">
+                <div>
+                    <h3><i class="fa-solid fa-barcode"></i> Rastreador de Lote (Batch ID)</h3>
+                    <p>Ingresa el código impreso en tu bolsa física (Ej: CPS-001) para validar la trazabilidad exacta de origen:</p>
+                    <div class="tool-form-group">
+                        <input type="text" id="inp-lote" placeholder="Ej. CPS-001">
+                        <button class="btn-tool-action" onclick="rastrearLoteFinca()">Rastrear</button>
+                    </div>
+                </div>
+                <div class="tool-output-panel" id="out-lote">Escribe un código de producto para verificar finca, altitud y fecha de tueste.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN DE TIENDA / CATÁLOGO ENTERPRISE -->
+    <section class="section-catalogo" id="catalogo">
+        <div class="catalogo-header">
+            <h2><i class="fa-solid fa-boxes-stacked"></i> Catálogo Global de Cafés <span class="contador-badge" id="total-registros">18 Productos</span></h2>
+            <div style="font-size: 0.95rem; color: #666; font-weight: 500;">
+                Mostrando <b id="rango-pag">1 - 9</b> de 18 bolsas registradas
+            </div>
+        </div>
+
+        <!-- Matriz de Productos -->
+        <div class="grid-matriz" id="contenedor-matriz">
+            <!-- JavaScript inyectará las bolsas aquí -->
+        </div>
+
+        <!-- Paginación -->
+        <div class="paginacion-wrapper" id="paginacion-bar">
+            <button class="page-btn active" onclick="cargarPagina(1)">1</button>
+            <button class="page-btn" onclick="cargarPagina(2)">2</button>
+        </div>
+    </section>
+
+    <!-- HISTORIA DE LA FINCA -->
+    <section class="historia-section" id="historia">
+        <div class="historia-container">
+            <h2>Nuestra Finca: Raíces en Támesis</h2>
+            <p>
+                Ubicados en las imponentes y fértiles montañas de <b>Támesis, Antioquia</b>, en <b>Café para Siempre</b> llevamos generaciones cultivando la tierra con un profundo respeto por la tradición cafetera y el medio ambiente. Nuestra finca se encuentra a una altitud privilegiada, lo que permite que el grano madure lentamente absorbiendo los nutrientes de suelos volcánicos y orgánicos.
+            </p>
+
+            <div class="historia-grid">
+                <div class="historia-card">
+                    <h3><i class="fa-solid fa-mountain"></i> Altitud & Clima</h3>
+                    <p>Cultivado entre 1,700 y 2,000 metros sobre el nivel del mar, con microclimas perfectos que potencian la acidez y dulzura natural.</p>
+                </div>
+                <div class="historia-card">
+                    <h3><i class="fa-solid fa-seedling"></i> Prácticas Sostenibles</h3>
+                    <p>Manejo de abonos orgánicos propios de la finca y protección estricta de fuentes hídricas y fauna local de Támesis.</p>
+                </div>
+                <div class="historia-card">
+                    <h3><i class="fa-solid fa-handshake"></i> Sabor con Identidad</h3>
+                    <p>Un proyecto familiar que busca conectar directamente al productor campesino con los amantes del buen café en Colombia y el mundo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WIDGET DE INTELIGENCIA ARTIFICIAL GLOBAL DE CAFÉ (SUPERAVANZADA) -->
+    <div class="ai-assistant-wrapper">
+        <div class="ai-fab-btn" onclick="toggleAIChat()" title="Asistente IA Café para Siempre">
+            <i class="fa-solid fa-brain fa-xl"></i>
+        </div>
+
+        <div class="ai-chat-window" id="aiWindow">
+            <div class="ai-chat-header">
+                <div class="ai-header-info">
+                    <div class="ai-avatar">IA</div>
+                    <div class="ai-header-text">
+                        <h4>Asistente Experto Global</h4>
+                        <span>En línea • Finca La Sierra</span>
+                    </div>
+                </div>
+                <button class="ai-close-btn" onclick="toggleAIChat()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="ai-chat-messages" id="aiMessages">
+                <div class="ai-msg bot">
+                    ¡Hola! Soy tu <b>Inteligencia Artificial Experta en Café de Especialidad</b>. Conecto la sabiduría cafetera de <i>Támesis, Antioquia</i> con bases de datos globales de tueste, extracción y trazabilidad. ¿En qué te puedo asesorar hoy?
+                </div>
+            </div>
+
+            <div class="ai-quick-chips">
+                <div class="chip" onclick="sendChipQuery('¿Dónde nació Café para Siempre?')">¿Dónde nació la marca?</div>
+                <div class="chip" onclick="sendChipQuery('Recomiéndame un buen café')">Recomendar café</div>
+                <div class="chip" onclick="sendChipQuery('¿Cómo funciona el simulador?')">Simulador agrícola</div>
+                <div class="chip" onclick="sendChipQuery('Método de extracción V60')">Tips de extracción</div>
+            </div>
+
+            <div class="ai-chat-input-area">
+                <input type="text" id="aiUserInput" placeholder="Pregunta sobre café, precios, Támesis..." onkeypress="handleAIKeyPress(event)">
+                <button class="ai-send-btn" onclick="processUserQuery()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 Café para Siempre - Támesis, Antioquia. Todos los derechos reservados.</p>
+        <p style="font-size: 0.85rem; color: #777;">Plataforma Enterprise de Trazabilidad Agrícola y E-Commerce Especializado.</p>
+    </footer>
+
+    <!-- JAVASCRIPT MASIVO E INGENIERÍA DE SOFTWARE -->
+    <script>
+        const productosTotales = [
+            { id: "CPS-001", nombre: "Bolsa Borbón Rosado", tipoCafé: "Borbón Rosado", proceso: "Honey", fermentacion: "48 horas", tueste: "Medio", peso: "500g", precio: "$35.000", stockReservado: 12, tuesteFecha: "Tostado hace 24 horas" },
+            { id: "CPS-002", nombre: "Bolsa Castillo Tradición", tipoCafé: "Castillo", proceso: "Lavado", fermentacion: "24 horas", tueste: "Medio-Oscuro", peso: "1000g", precio: "$48.000", stockReservado: 30, tuesteFecha: "Tostado fresco semanal" },
+            { id: "CPS-003", nombre: "Bolsa Geisha de Altura", tipoCafé: "Geisha", proceso: "Natural", fermentacion: "72 horas", tueste: "Claro", peso: "250g", precio: "$45.000", stockReservado: 5, tuesteFecha: "Tostado bajo demanda" },
+            { id: "CPS-004", nombre: "Bolsa Caturra Finca", tipoCafé: "Caturra", proceso: "Lavado", fermentacion: "30 horas", tueste: "Medio", peso: "500g", precio: "$28.000", stockReservado: 22, tuesteFecha: "Tostado hace 48 horas" },
+            { id: "CPS-005", nombre: "Bolsa Sidra Especial Fermento", tipoCafé: "Sidra", proceso: "Anaeróbico", fermentacion: "96 horas", tueste: "Claro", peso: "250g", precio: "$50.000", stockReservado: 8, tuesteFecha: "Tostado reciente" },
+            { id: "CPS-006", nombre: "Bolsa Tabi Reserva Oscura", tipoCafé: "Tabi", proceso: "Natural", fermentacion: "60 horas", tueste: "Oscuro", peso: "1000g", precio: "$55.000", stockReservado: 15, tuesteFecha: "Tostado semanal" },
+            { id: "CPS-007", nombre: "Bolsa Maracaturra Exótico", tipoCafé: "Maracaturra", proceso: "Honey", fermentacion: "50 horas", tueste: "Medio", peso: "500g", precio: "$40.000", stockReservado: 10, tuesteFecha: "Tostado fresco" },
+            { id: "CPS-008", nombre: "Bolsa Borbón Ajefruta", tipoCafé: "Borbón", proceso: "Anaeróbico", fermentacion: "72 horas", tueste: "Claro", peso: "250g", precio: "$32.000", stockReservado: 14, tuesteFecha: "Tostado reciente" },
+            { id: "CPS-009", nombre: "Bolsa Blend Tradición Finca", tipoCafé: "Mezcla Aragüita", proceso: "Lavado", fermentacion: "20 horas", tueste: "Medio", peso: "1000g", precio: "$42.000", stockReservado: 45, tuesteFecha: "Tostado semanal" },
+            { id: "CPS-010", nombre: "Bolsa Catuaí Amarillo", tipoCafé: "Catuaí", proceso: "Honey", fermentacion: "40 horas", tueste: "Medio", peso: "500g", precio: "$30.000", stockReservado: 18, tuesteFecha: "Tostado fresco" },
+            { id: "CPS-011", nombre: "Bolsa Typica Ancestral", tipoCafé: "Typica", proceso: "Lavado", fermentacion: "36 horas", tueste: "Claro", peso: "500g", precio: "$38.000", stockReservado: 9, tuesteFecha: "Tostado bajo demanda" },
+            { id: "CPS-012", nombre: "Bolsa Moka de Altura", tipoCafé: "Moka", proceso: "Natural", fermentacion: "55 horas", tueste: "Medio", peso: "250g", precio: "$29.000", stockReservado: 11, tuesteFecha: "Tostado reciente" },
+            { id: "CPS-013", nombre: "Bolsa San Bernardo", tipoCafé: "San Bernardo", proceso: "Lavado", fermentacion: "24 horas", tueste: "Medio-Oscuro", peso: "1000g", precio: "$46.000", stockReservado: 25, tuesteFecha: "Tostado semanal" },
+            { id: "CPS-014", nombre: "Bolsa Edición Cosecha Lluviosa", tipoCafé: "Castillo / Caturra", proceso: "Honey", fermentacion: "45 horas", tueste: "Medio", peso: "500g", precio: "$33.000", stockReservado: 16, tuesteFecha: "Tostado fresco" },
+            { id: "CPS-015", nombre: "Bolsa Robusta Especial Finca", tipoCafé: "Robusta Lavado", proceso: "Lavado", fermentacion: "18 horas", tueste: "Oscuro", peso: "1000g", precio: "$39.000", stockReservado: 20, tuesteFecha: "Tostado semanal" },
+            { id: "CPS-016", nombre: "Bolsa Pacamara Gigante", tipoCafé: "Pacamara", proceso: "Anaeróbico", fermentacion: "80 horas", tueste: "Claro", peso: "250g", precio: "$48.000", stockReservado: 7, tuesteFecha: "Tostado bajo demanda" },
+            { id: "CPS-017", nombre: "Bolsa Caturra Rojo Intenso", tipoCafé: "Caturra", proceso: "Natural", fermentacion: "48 horas", tueste: "Medio", peso: "500g", precio: "$31.000", stockReservado: 22, tuesteFecha: "Tostado fresco" },
+            { id: "CPS-018", nombre: "Bolsa Gran Reserva Finca", tipoCafé: "Borbón / Geisha", proceso: "Anaeróbico", fermentacion: "100 horas", tueste: "Medio", peso: "500g", precio: "$65.000", stockReservado: 4, tuesteFecha: "Tostado exclusivo" }
+        ];
+
+        const productosPorPagina = 9;
+
+        function renderizarMatriz(pagina) {
+            const contenedor = document.getElementById("contenedor-matriz");
+            contenedor.innerHTML = "";
+
+            const inicio = (pagina - 1) * productosPorPagina;
+            const fin = inicio + productosPorPagina;
+            const productosPagina = productosTotales.slice(inicio, fin);
+
+            document.getElementById("rango-pag").innerText = `${inicio + 1} - ${Math.min(fin, productosTotales.length)}`;
+
+            productosPagina.forEach(prod => {
+                const card = document.createElement("div");
+                card.className = "item-card";
+                card.innerHTML = `
+                    <div>
+                        <div class="bolsa-container">
+                            <span class="badge-id">${prod.id}</span>
+                            <span class="badge-peso">${prod.peso}</span>
+                            <div class="bolsa-fisica">
+                                <div class="bolsa-valvula"></div>
+                                <div class="bolsa-etiqueta-real">
+                                    <div class="etiqueta-brand">Café para Siempre</div>
+                                    <div class="etiqueta-variedad">${prod.tipoCafé}</div>
+                                    <div class="etiqueta-proceso">Proceso: ${prod.proceso}</div>
+                                </div>
+                                <div style="font-size: 0.5rem; color: #aaa; margin-bottom: 3px;">Támesis, Antioquia</div>
+                            </div>
+                        </div>
+
+                        <div class="item-body">
+                            <div class="item-title">${prod.nombre}</div>
+                            
+                            <div class="molienda-box">
+                                <label><i class="fa-solid fa-mortar-pestle"></i> Tipo de Molienda:</label>
+                                <select>
+                                    <option value="grano">Grano Entero (Recomendado)</option>
+                                    <option value="media">Media (V60 / Filtro)</option>
+                                    <option value="gruesa">Gruesa (Prensa Francesa)</option>
+                                    <option value="fina">Fina (Espresso)</option>
+                                </select>
+                            </div>
+
+                            <div class="item-specs">
+                                <div><span>Variedad:</span> <span>${prod.tipoCafé}</span></div>
+                                <div><span>Proceso:</span> <span>${prod.proceso}</span></div>
+                                <div><span>Fermentación:</span> <span>${prod.fermentacion}</span></div>
+                                <div><span>Tueste:</span> <span>${prod.tueste}</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="padding: 0 25px 25px 25px;">
+                        <div class="item-footer">
+                            <div class="precio-tag">${prod.precio}</div>
+                            <div class="stock-tag"><i class="fa-solid fa-box"></i> ${prod.stockReservado} reservadas</div>
+                        </div>
+                        <a href="login.html" class="btn-accion"><i class="fa-solid fa-cart-plus"></i> Comprar / Reservar</a>
+                    </div>
+                `;
+                contenedor.appendChild(card);
+            });
+        }
+
+        function cargarPagina(numPagina) {
+            const botones = document.querySelectorAll(".page-btn");
+            botones.forEach((btn, index) => {
+                if (index + 1 === numPagina) {
+                    btn.classList.add("active");
+                } else {
+                    btn.classList.remove("active");
+                }
+            });
+            renderizarMatriz(numPagina);
+        }
+
+        function recomendarMaridaje() {
+            const val = document.getElementById('sel-comida').value;
+            const caja = document.getElementById('out-maridaje');
+            
+            if (val === 'arepa-queso') {
+                caja.innerHTML = "✨ <b>Combinación ideal:</b> Bolsa Castillo Tradición (CPS-002). Su sabor suave y balanceado combina de maravilla con el saladito del quesito.";
+            } else if (val === 'arepa-huevo') {
+                caja.innerHTML = "✨ <b>Combinación ideal:</b> Bolsa Caturra Finca (CPS-004). Un café firme y de buen cuerpo para arrancar la mañana con los huevos y la arepa.";
+            } else if (val === 'arepa-chocolo') {
+                caja.innerHTML = "✨ <b>Combinación ideal:</b> Bolsa Borbón Rosado (CPS-001). Sus notas dulces y florales le quedan perfectas al dulzor de la arepa de chócolo.";
+            } else if (val === 'calentao') {
+                caja.innerHTML = "✨ <b>Combinación ideal:</b> Bolsa Tabi Reserva Oscura (CPS-006). Un tinto fuerte y con carácter que le aguanta el paso a un buen calentao paisa.";
+            } else if (val === 'buñuelo-pandequeso') {
+                caja.innerHTML = "✨ <b>Combinación ideal:</b> Bolsa Catuaí Amarillo (CPS-010). Su dulzor achocolatado resalta el sabor del queso horneado y el buñuelo crocante.";
+            } else if (val === 'parva-dulce') {
+                caja.innerHTML = "✨ <b>Combinación ideal:</b> Bolsa Geisha de Altura (CPS-003). Acidez fina y notas cítricas que cortan lo dulce de la parva sin empalagar.";
+            } else if (val === 'torta-chocolate') {
+                caja.innerHTML = "✨ <b>Combinación ideal:</b> Bolsa Sidra Especial Fermento (CPS-005). Sus notas a frutos rojos e intensidad hacen una pareja perfecta con el chocolate.";
+            } else if (val === 'pan-mantequilla') {
+                caja.innerHTML = "✨ <b>Combinación ideal:</b> Bolsa Blend Tradición Finca (CPS-009). El clásico tinto suave de finca para mojar el pan o las tostadas.";
+            }
+        }
+
+        function calcularBolsasMes() {
+            const tazas = parseInt(document.getElementById('inp-tazas').value);
+            const caja = document.getElementById('out-calculadora');
+            
+            if (isNaN(tazas) || tazas <= 0) {
+                caja.innerHTML = "⚠️ Por favor ingresa un número válido de tazas diarias.";
+                return;
+            }
+
+            const gramosMensuales = tazas * 10 * 30;
+            const bolsas500g = Math.ceil(gramosMensuales / 500);
+            
+            caja.innerHTML = `☕ Con <b>${tazas} taza(s) diarias</b>, consumes aprox. ${gramosMensuales}g al mes. Necesitas exactamente <b>${bolsas500g} bolsa(s) de 500g mensuales</b> para asegurar abasto continuo sin interrupciones.`;
+        }
+
+        function rastrearLoteFinca() {
+            const codigo = document.getElementById('inp-lote').value.trim().toUpperCase();
+            const caja = document.getElementById('out-lote');
+            const item = productosTotales.find(p => p.id === codigo);
+            if(item) {
+                caja.innerHTML = `✅ <b>Lote verificado (${item.id}):</b> ${item.nombre}. Finca La Sierra, Támesis. ${item.tuesteFecha}. Calidad de exportación garantizada.`;
+            } else {
+                caja.innerHTML = `❌ Código no encontrado en los registros de finca. Prueba con CPS-001, CPS-002 o CPS-003.`;
+            }
+        }
+
+        /* --- INTELIGENCIA ARTIFICIAL EXPERTA (GLOBAL & LOCAL) --- */
+        function toggleAIChat() {
+            const win = document.getElementById('aiWindow');
+            win.style.display = win.style.display === 'flex' ? 'none' : 'flex';
+            if(win.style.display === 'flex') {
+                document.getElementById('aiUserInput').focus();
+            }
+        }
+
+        function handleAIKeyPress(event) {
+            if(event.key === 'Enter') {
+                processUserQuery();
+            }
+        }
+
+        function sendChipQuery(queryText) {
+            document.getElementById('aiUserInput').value = queryText;
+            processUserQuery();
+        }
+
+        function processUserQuery() {
+            const inputField = document.getElementById('aiUserInput');
+            const text = inputField.value.trim();
+            if(!text) return;
+
+            const chatMessages = document.getElementById('aiMessages');
+            
+            chatMessages.innerHTML += `<div class="ai-msg user">${text}</div>`;
+            inputField.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            setTimeout(() => {
+                const response = generateAIResponse(text);
+                chatMessages.innerHTML += `<div class="ai-msg bot">${response}</div>`;
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 500);
+        }
+
+        function generateAIResponse(query) {
+            const q = query.toLowerCase();
+
+            if(q.includes('dónde nació') || q.includes('donde nacio') || q.includes('origen') || q.includes('café para siempre')) {
+                return "🌱 <b>Café para Siempre</b> nació y se cultiva en la Finca La Sierra, ubicada en la imponente Vereda La Alacena de <b>Támesis, Antioquia</b>. Es un proyecto de origen campesino y tecnológico que elimina intermediarios para llevar café de especialidad directamente desde la cordillera colombiana hasta tu puerta.";
+            } 
+            else if(q.includes('recomienda') || q.includes('buen café') || q.includes('cual compro') || q.includes('quiero un café')) {
+                return "☕ Basado en nuestros microlotes de alta demanda, te recomiendo fuertemente la <b>Bolsa Borbón Rosado (CPS-001)</b> con proceso Honey (aroma floral y dulzor excepcional) o nuestra exclusiva <b>Geisha de Altura (CPS-003)</b> si buscas notas cítricas y acidez fina. Puedes verlos en la sección <i>Tienda Enterprise</i>.";
+            } 
+            else if(q.includes('simulador') || q.includes('juego') || q.includes('proceso')) {
+                return "🎮 Nuestro <b>Simulador de Proceso</b> es una herramienta lúdica interactiva donde puedes tomar decisiones agronómicas (siembra, cosecha selectiva, fermentación anaeróbica y tueste) en tiempo real en la finca de Támesis. ¡Haz clic en el botón superior 'Simulador' para probarlo!";
+            } 
+            else if(q.includes('v60') || q.includes('metodo') || q.includes('extraccion') || q.includes('preparar') || q.includes('receta')) {
+                return "🧪 Para preparar un café de especialidad en <b>V60 (Método de Filtro)</b>, te recomiendo usar molienda media, una proporción de 1:15 (ej: 15g de café por 225g de agua a 92°C). Haz un preinfusión de 30 segundos y vierte en círculos concéntricos. ¡Esto realzará las notas florales de nuestros granos de Támesis!";
+            } 
+            else if(q.includes('precio') || q.includes('cuánto cuesta') || q.includes('cuanto vale') || q.includes('catalogo')) {
+                return "💰 Nuestros precios oscilan entre <b>$28.000 COP y $65.000 COP</b> por bolsa (presentaciones de 250g, 500g y 1000g). Cada producto incluye trazabilidad de lote y opciones personalizadas de molienda en nuestro catálogo global.";
+            }
+            else if(q.includes('contacto') || q.includes('comprar') || q.includes('reservar')) {
+                return "🛒 Para apartar o comprar tu lote, puedes seleccionar el tipo de molienda deseado en cualquiera de nuestras bolsas del catálogo y hacer clic en <b>Comprar / Reservar</b> para acceder de forma segura a nuestra plataforma de autenticación.";
+            }
+            else {
+                return `🤖 Analizando tu consulta sobre <i>"${query}"</i> con nuestros algoritmos de café de especialidad: Como asistente global de <b>Café para Siempre</b>, te sugiero explorar nuestro <i>Laboratorio Sensorial</i> (arriba en la página) para calcular tu consumo mensual, o rastrear un código de lote como el <b>CPS-001</b>. ¿Te puedo ayudar con alguna recomendación de tueste o método de preparación?`;
+            }
+        }
+
+        window.onload = function() {
+            renderizarMatriz(1);
+            calcularBolsasMes();
+        };
+    </script>
+</body>
+</html>

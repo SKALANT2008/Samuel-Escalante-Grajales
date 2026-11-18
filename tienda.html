@@ -1,0 +1,1923 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Oficial Enterprise | Café para Siempre - Támesis</title>
+    
+    <!-- Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #2C1810;
+            --primary-dark: #170A05;
+            --accent: #D4A373;
+            --accent-hover: #C28F5F;
+            --green-leaf: #2D5A27;
+            --green-hover: #1E3F1A;
+            --bg-body: #F4F1EA;
+            --surface-card: #FFFFFF;
+            --surface-subtle: #F9F8F5;
+            --border-color: #E2D7C5;
+            --text-main: #1F1F1F;
+            --text-muted: #6C757D;
+            --white: #FFFFFF;
+            --danger: #D90429;
+            --shadow-sm: 0 4px 12px rgba(44, 24, 16, 0.04);
+            --shadow-md: 0 12px 30px rgba(44, 24, 16, 0.08);
+            --shadow-lg: 0 25px 50px rgba(44, 24, 16, 0.16);
+            --radius-sm: 10px;
+            --radius-md: 16px;
+            --radius-lg: 28px;
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- BARRA DE ENVÍO GRATIS & PUNTOS --- */
+        .free-shipping-bar {
+            background: var(--green-leaf);
+            color: var(--white);
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-align: center;
+            padding: 9px 15px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* --- HEADER FLOTANTE PREMIUM --- */
+        header {
+            position: fixed;
+            top: 36px;
+            left: 0;
+            width: 100%;
+            background: rgba(44, 24, 16, 0.95);
+            backdrop-filter: blur(16px);
+            color: var(--white);
+            padding: 14px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(212, 163, 115, 0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .logo-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+            color: var(--white);
+        }
+
+        .logo-brand img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            object-fit: cover;
+            box-shadow: 0 0 15px rgba(212, 163, 115, 0.4);
+            transition: transform 0.3s;
+        }
+
+        .logo-brand:hover img { transform: rotate(10deg) scale(1.05); }
+
+        .logo-brand-text h1 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: -0.3px;
+        }
+
+        .logo-brand-text span {
+            font-size: 0.75rem;
+            color: var(--accent);
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        .search-bar-header {
+            flex: 1;
+            max-width: 420px;
+            margin: 0 25px;
+            position: relative;
+        }
+
+        .search-bar-header input {
+            width: 100%;
+            padding: 11px 18px 11px 42px;
+            border-radius: 30px;
+            border: 1px solid rgba(212, 163, 115, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--white);
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .search-bar-header input::placeholder { color: rgba(255, 255, 255, 0.6); }
+
+        .search-bar-header input:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(212, 163, 115, 0.2);
+        }
+
+        .search-icon-text {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-pill {
+            background: rgba(212, 163, 115, 0.15);
+            border: 1px solid var(--accent);
+            padding: 7px 16px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        .btn-cart-trigger {
+            position: relative;
+            background: var(--accent);
+            color: var(--primary);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 4px 15px rgba(212, 163, 115, 0.3);
+        }
+
+        .btn-cart-trigger:hover {
+            background: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 163, 115, 0.5);
+        }
+
+        .cart-badge {
+            background: var(--danger);
+            color: var(--white);
+            font-size: 0.72rem;
+            padding: 2px 7px;
+            border-radius: 12px;
+            font-weight: 800;
+        }
+
+        .btn-logout-link {
+            color: #FF8B8B;
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+
+        .btn-logout-link:hover { color: #FF5252; }
+
+        /* --- MAIN LAYOUT & HERO --- */
+        main {
+            padding: 155px 5% 80px;
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+
+        .hero-marketing-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 30px;
+            margin-bottom: 35px;
+        }
+
+        @media (max-width: 1024px) {
+            .hero-marketing-grid { grid-template-columns: 1fr; }
+        }
+
+        .promo-banner {
+            background: linear-gradient(135deg, var(--primary) 0%, #1A0D07 100%);
+            border-radius: var(--radius-lg);
+            padding: 45px;
+            color: var(--white);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .promo-banner h2 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+            line-height: 1.15;
+        }
+
+        .promo-banner p {
+            color: var(--accent);
+            font-size: 1.02rem;
+            max-width: 580px;
+            margin-bottom: 22px;
+            line-height: 1.6;
+        }
+
+        .hero-badges-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .hero-badge-item {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(212,163,115,0.3);
+            padding: 9px 16px;
+            border-radius: 30px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--white);
+        }
+
+        .tamesis-showcase-card {
+            background: var(--surface-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .tamesis-showcase-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            margin-bottom: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            transition: transform 0.4s ease;
+        }
+
+        .tamesis-showcase-card:hover img { transform: scale(1.03); }
+
+        .tamesis-info h3 {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+
+        .tamesis-info p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* --- MAPA INTERACTIVO DE GEOLOCALIZACIÓN --- */
+        .geo-map-card {
+            background: var(--surface-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            margin-bottom: 35px;
+            box-shadow: var(--shadow-md);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            align-items: center;
+        }
+
+        @media (max-width: 900px) {
+            .geo-map-card { grid-template-columns: 1fr; }
+        }
+
+        .geo-info h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .geo-info p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .geo-badge-box {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .geo-badge {
+            background: var(--surface-subtle);
+            border: 1px solid var(--border-color);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .geo-visual {
+            background: radial-gradient(circle at center, #244822 0%, #0D0704 100%);
+            border-radius: var(--radius-md);
+            height: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--white);
+            text-align: center;
+            padding: 20px;
+            border: 1px solid var(--accent);
+        }
+
+        /* --- SIMULADOR DE ALTITUD & CALCULADORA --- */
+        .grid-two-tools {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 35px;
+        }
+
+        @media(max-width: 1024px) {
+            .grid-two-tools { grid-template-columns: 1fr; }
+        }
+
+        .altitude-simulator, .calculator-widget {
+            background: var(--surface-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .altitude-simulator h3, .calculator-widget h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+
+        .altitude-simulator p, .calculator-widget p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 18px;
+        }
+
+        .slider-box {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .slider-box input[type="range"] {
+            width: 100%;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+
+        .altitude-display-panel {
+            background: var(--surface-subtle);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 15px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .alt-stat span { font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
+        .alt-stat h4 { font-size: 0.95rem; color: var(--primary); font-weight: 800; margin-top: 2px; }
+
+        /* --- GUÍAS DE EXTRACCIÓN --- */
+        .guides-section {
+            background: var(--surface-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            padding: 35px;
+            margin-bottom: 35px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .guides-section h3 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .guides-section > p {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+        }
+
+        .guides-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .guide-card {
+            background: var(--surface-subtle);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .guide-card h4 { font-size: 1.05rem; color: var(--primary); font-weight: 800; margin-bottom: 6px; }
+        .guide-card p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 10px; }
+        .guide-badge-ratio { display: inline-block; background: var(--accent); color: var(--primary); padding: 4px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: 800; }
+
+        /* --- QUIZ INTERACTIVO --- */
+        .quiz-container {
+            background: linear-gradient(135deg, var(--surface-card) 0%, var(--surface-subtle) 100%);
+            border: 2px dashed var(--accent);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            margin-bottom: 35px;
+            box-shadow: var(--shadow-md);
+            text-align: center;
+        }
+
+        .quiz-container h3 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .quiz-container p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .quiz-options {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-quiz {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 12px 22px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-quiz:hover {
+            background: var(--green-leaf);
+            transform: translateY(-2px);
+        }
+
+        /* --- CONTROLES Y FILTROS --- */
+        .controls-wrapper {
+            background: var(--surface-card);
+            border-radius: var(--radius-md);
+            padding: 24px 30px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 40px;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .category-pills {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .cat-btn {
+            background: var(--surface-subtle);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 10px 22px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.25s;
+        }
+
+        .cat-btn.active, .cat-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(44, 24, 16, 0.2);
+        }
+
+        .filter-selectors {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px dashed var(--border-color);
+            padding-top: 18px;
+        }
+
+        .select-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .select-box select {
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-body);
+            font-size: 0.9rem;
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+            color: var(--primary);
+            transition: border-color 0.2s;
+        }
+
+        /* --- CUADRÍCULA DE PRODUCTOS PREMIUM --- */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 35px;
+            margin-bottom: 60px;
+        }
+
+        .product-card {
+            background: var(--surface-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: var(--shadow-md);
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent);
+        }
+
+        .bag-stage {
+            height: 270px;
+            background: radial-gradient(circle at center, #3A2217 0%, #170A05 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 20px;
+        }
+
+        .bag-real {
+            width: 145px;
+            height: 205px;
+            background: linear-gradient(135deg, #4A2B1D 0%, #22120B 100%);
+            border-radius: 10px 10px 18px 18px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.6), inset 0 2px 6px rgba(255,255,255,0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 10px;
+            position: relative;
+            border: 1px solid rgba(212, 163, 115, 0.4);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover .bag-real { transform: scale(1.05) rotate(1deg); }
+
+        .bag-valve {
+            width: 14px;
+            height: 14px;
+            background: #0A0301;
+            border-radius: 50%;
+            border: 1.5px solid var(--accent);
+            position: absolute;
+            top: 15px;
+        }
+
+        .bag-label {
+            background: #FFFEFA;
+            width: 100%;
+            padding: 12px 6px;
+            text-align: center;
+            border-radius: 6px;
+            margin-top: 35px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        }
+
+        .bag-label-brand {
+            font-size: 0.65rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            border-bottom: 1.5px solid var(--accent);
+            padding-bottom: 3px;
+            margin-bottom: 4px;
+        }
+
+        .bag-label-var {
+            font-size: 0.62rem;
+            font-weight: 700;
+            color: var(--green-leaf);
+        }
+
+        .badge-id {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(6px);
+            color: var(--white);
+            font-size: 0.75rem;
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+        }
+
+        .badge-stock-alert {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: var(--danger);
+            color: var(--white);
+            font-size: 0.72rem;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-weight: 800;
+            animation: pulseAlert 2s infinite;
+        }
+
+        @keyframes pulseAlert {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .product-body {
+            padding: 25px;
+            flex-grow: 1;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 14px;
+        }
+
+        .specs-list {
+            font-size: 0.88rem;
+            color: #555;
+            margin-bottom: 18px;
+            line-height: 1.6;
+        }
+
+        .specs-list div {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 5px;
+            margin-bottom: 6px;
+        }
+
+        .specs-list span:first-child { color: var(--text-muted); font-weight: 500; }
+        .specs-list span:last-child { color: var(--primary); font-weight: 700; }
+
+        .btn-view-details {
+            width: 100%;
+            background: var(--surface-subtle);
+            border: 1px solid var(--border-color);
+            color: var(--primary);
+            padding: 11px;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-view-details:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        .product-footer {
+            padding: 0 25px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price-tag {
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: var(--green-leaf);
+        }
+
+        .btn-add-cart {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 6px 15px rgba(44, 24, 16, 0.2);
+        }
+
+        .btn-add-cart:hover {
+            background: var(--green-leaf);
+            transform: translateY(-2px);
+        }
+
+        /* --- TESTIMONIOS & CREAR RESEÑA --- */
+        .testimonials-section {
+            background: var(--surface-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            padding: 40px;
+            margin-bottom: 50px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .testimonials-section h3 {
+            text-align: center;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 30px;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+
+        .testimonial-card {
+            background: var(--surface-subtle);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .stars { color: #F39C12; margin-bottom: 10px; font-size: 0.9rem; }
+        .testimonial-text { font-size: 0.9rem; color: var(--text-main); font-style: italic; margin-bottom: 15px; line-height: 1.6; }
+        .testimonial-author { font-size: 0.82rem; font-weight: 800; color: var(--primary); }
+
+        /* Formulario para añadir reseña */
+        .add-review-box {
+            background: var(--surface-subtle);
+            border: 1px dashed var(--accent);
+            border-radius: var(--radius-md);
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        .add-review-box h4 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .review-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media(max-width: 768px) {
+            .review-form-grid { grid-template-columns: 1fr; }
+        }
+
+        .review-form-grid .full-width { grid-column: 1 / -1; }
+
+        /* --- SELLO DE GARANTÍA --- */
+        .guarantee-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .guarantee-item {
+            background: var(--surface-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .guarantee-item h4 { font-size: 0.95rem; font-weight: 800; color: var(--primary); margin-bottom: 5px; }
+        .guarantee-item p { font-size: 0.8rem; color: var(--text-muted); }
+
+        /* --- CLUB DEL CAFÉ --- */
+        .club-banner {
+            background: linear-gradient(135deg, var(--green-leaf) 0%, var(--green-hover) 100%);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            color: var(--white);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 25px;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 50px;
+        }
+
+        .club-banner h3 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; }
+        .club-banner p { color: var(--accent); font-size: 1rem; max-width: 600px; }
+        
+        .btn-club {
+            background: var(--accent);
+            color: var(--primary);
+            border: none;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .btn-club:hover { background: var(--white); transform: translateY(-2px); }
+
+        /* --- CHATBOT FLOTANTE --- */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 2400;
+        }
+
+        .chatbot-btn {
+            background: var(--primary);
+            color: var(--accent);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+        }
+
+        .chatbot-btn:hover { transform: scale(1.1); }
+
+        .chatbot-box {
+            position: absolute;
+            bottom: 75px;
+            right: 0;
+            width: 320px;
+            background: var(--surface-card);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-lg);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chatbot-box.active { display: flex; }
+
+        .chat-header {
+            background: var(--primary);
+            color: var(--white);
+            padding: 14px 18px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-body {
+            padding: 15px;
+            height: 220px;
+            overflow-y: auto;
+            font-size: 0.85rem;
+            background: var(--bg-body);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .chat-msg {
+            background: var(--surface-card);
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            max-width: 85%;
+        }
+
+        .chat-msg.bot { align-self: flex-start; }
+        .chat-msg.user { align-self: flex-end; background: var(--accent); color: var(--primary); font-weight: 700; }
+
+        .chat-footer {
+            padding: 10px;
+            background: var(--surface-card);
+            display: flex;
+            gap: 8px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .chat-footer input {
+            flex: 1;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .chat-footer button {
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        /* --- MODALES Y DRAWER --- */
+        .modal-overlay, .drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2500;
+            padding: 20px;
+        }
+
+        .modal-overlay.active, .drawer-overlay.active { display: flex; }
+
+        .modal-card {
+            background: var(--surface-card);
+            width: 100%;
+            max-width: 540px;
+            border-radius: var(--radius-lg);
+            padding: 36px;
+            position: relative;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+        .modal-close:hover { color: var(--danger); }
+
+        .cart-drawer {
+            position: fixed;
+            top: 0;
+            right: -450px;
+            width: 100%;
+            max-width: 440px;
+            height: 100vh;
+            background: var(--surface-card);
+            z-index: 2600;
+            box-shadow: -15px 0 50px rgba(0,0,0,0.3);
+            transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-drawer.active { right: 0; }
+
+        .drawer-header {
+            background: var(--primary);
+            color: var(--white);
+            padding: 24px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--accent);
+        }
+
+        .drawer-body {
+            padding: 25px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .cart-item-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border-color);
+            gap: 15px;
+        }
+
+        .cart-item-qty {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--surface-subtle);
+            padding: 6px 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        .qty-btn { background: none; border: none; font-weight: 800; cursor: pointer; color: var(--primary); font-size: 1rem; }
+
+        .drawer-footer {
+            padding: 25px;
+            background: var(--surface-subtle);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .price-summary { font-size: 0.95rem; margin-bottom: 18px; }
+        .price-summary div { display: flex; justify-content: space-between; margin-bottom: 8px; }
+        .price-summary .total-row { font-size: 1.35rem; font-weight: 800; color: var(--primary); border-top: 1px solid var(--border-color); padding-top: 12px; margin-top: 12px; }
+
+        .btn-checkout {
+            width: 100%;
+            padding: 16px;
+            background: var(--green-leaf);
+            color: var(--white);
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 1.1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.25s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-checkout:hover { background: var(--green-hover); }
+
+        .form-row { margin-bottom: 18px; }
+        .form-row label { display: block; font-size: 0.88rem; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+        .form-row input, .form-row select, .form-row textarea {
+            width: 100%; padding: 13px 16px; border-radius: 10px; border: 1px solid var(--border-color); font-size: 0.92rem; outline: none; background: var(--bg-body); color: var(--text-main);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BARRA DINÁMICA DE ENVÍO GRATIS & PUNTOS -->
+    <div class="free-shipping-bar" id="free-shipping-banner">
+        <span>¡Agrega $100.000 para Envío Gratis!</span>
+        <span>|</span>
+        <span>¡Gana 1 punto por cada $1.000 de compra (Cashback)!</span>
+    </div>
+
+    <!-- HEADER FLOTANTE -->
+    <header>
+        <a href="index.html" class="logo-brand">
+            <img src="https://alcompasdeantioquia.com/wp-content/uploads/2022/10/800px-Tamesis_Antioquia.jpg" alt="Támesis">
+            <div class="logo-brand-text">
+                <h1>Café para Siempre</h1>
+                <span>Tienda Oficial • Támesis, Antioquia</span>
+            </div>
+        </a>
+
+        <div class="search-bar-header">
+            <span class="search-icon-text">🔍</span>
+            <input type="text" id="input-buscar" placeholder="Busca por variedad, notas de cata o proceso..." onkeyup="ejecutarFiltros()">
+        </div>
+
+        <div class="nav-actions">
+            <div class="user-pill">
+                <span>👤</span>
+                <span id="label-usuario">Cliente</span>
+            </div>
+
+            <button class="btn-cart-trigger" onclick="toggleCartDrawer()">
+                🛒 Carrito
+                <span class="cart-badge" id="badge-cart-count">0</span>
+            </button>
+
+            <a href="login.html" class="btn-logout-link" onclick="cerrarSesion()">
+                Salir
+            </a>
+        </div>
+    </header>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main>
+        <!-- HERO MARKETING GRID -->
+        <section class="hero-marketing-grid">
+            <div class="promo-banner">
+                <h2>Cosechas Legendarias de Altura en Támesis</h2>
+                <p>Granos cultivados con pasión entre 1,700 y 2,000 m.s.n.m. en las majestuosas laderas del Suroeste antioqueño. Procesos artesanales y trazabilidad estricta directo de la finca a tu taza.</p>
+                <div class="hero-badges-row">
+                    <div class="hero-badge-item">★ Calidad de Exportación</div>
+                    <div class="hero-badge-item">🌱 100% Orgánico & Sostenible</div>
+                    <div class="hero-badge-item">🪙 Acumula Puntos Cashback</div>
+                </div>
+            </div>
+
+            <div class="tamesis-showcase-card">
+                <img src="https://alcompasdeantioquia.com/wp-content/uploads/2022/10/800px-Tamesis_Antioquia.jpg" alt="Támesis Antioquia">
+                <div class="tamesis-info">
+                    <h3>Nuestra Tierra: Támesis, Antioquia</h3>
+                    <p>Suelo volcánico privilegiado, microclima de montaña y tradición cafetera que perdura para siempre. Cada bolsa contiene la esencia de nuestra finca familiar.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- MAPA INTERACTIVO DE GEOLOCALIZACIÓN -->
+        <section class="geo-map-card">
+            <div class="geo-info">
+                <h3>Origen Exacto: Finca La Sierra (Vereda La Alacena)</h3>
+                <p>Nuestros lotes están ubicados en las estribaciones de la cordillera occidental en Támesis, Antioquia. Rodeados de fuentes hídricas protegidas y un microclima único que aporta azúcares y complejidad inigualables a cada grano.</p>
+                <div class="geo-badge-box">
+                    <span class="geo-badge">⛰️ 1,700 - 2,000 m.s.n.m.</span>
+                    <span class="geo-badge">💧 Hoya Hidrográfica Local</span>
+                    <span class="geo-badge">🤝 Cero Intermediarios</span>
+                </div>
+            </div>
+            <div class="geo-visual">
+                <div style="font-size: 3rem; margin-bottom: 12px;">📍</div>
+                <h4 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 4px;">Támesis, Suroeste Antioqueño</h4>
+                <p style="font-size: 0.85rem; color: var(--accent);">Latitud 5°40'N • Longitud 75°42'W</p>
+            </div>
+        </section>
+
+        <!-- HERRAMIENTAS: SIMULADOR & CALCULADORA -->
+        <div class="grid-two-tools">
+            <section class="altitude-simulator">
+                <h3>⛰️ Simulador de Altitud en Finca</h3>
+                <p>Descubre cómo la altura influye en el perfil del grano en nuestras laderas:</p>
+                <div class="slider-box">
+                    <input type="range" id="altitude-range" min="1700" max="2000" step="50" value="1900" oninput="actualizarSimuladorAltitud(this.value)">
+                </div>
+                <div class="altitude-display-panel">
+                    <div class="alt-stat"><span>Altitud</span><h4 id="sim-alt">1,900 m.s.n.m.</h4></div>
+                    <div class="alt-stat"><span>Perfil</span><h4 id="sim-acidez">Cítrica & Floral</h4></div>
+                </div>
+            </section>
+
+            <section class="calculator-widget">
+                <h3>☕ Calculadora de Consumo Mensual</h3>
+                <p>¿Cuántas tazas de café disfrutas al día en casa?</p>
+                <div class="slider-box">
+                    <input type="range" id="tazas-range" min="1" max="6" step="1" value="2" oninput="calcularConsumoMensual(this.value)">
+                </div>
+                <div class="altitude-display-panel">
+                    <div class="alt-stat"><span>Tazas Diarias</span><h4 id="calc-tazas">2 Tazas / Día</h4></div>
+                    <div class="alt-stat"><span>Recomendación</span><h4 id="calc-bolsas" style="color:var(--green-leaf);">2 Bolsas (500g) / Mes</h4></div>
+                </div>
+            </section>
+        </div>
+
+        <!-- SECCIÓN DE GUÍAS DE EXTRACCIÓN -->
+        <section class="guides-section">
+            <h3>📖 Aprende a Preparar tu Café en Casa</h3>
+            <p>Guía rápida de proporciones ideales recomendadas por nuestros baristas para sacar el máximo provecho a tu grano de Támesis.</p>
+            <div class="guides-grid">
+                <div class="guide-card">
+                    <h4>V60 / Filtrado</h4>
+                    <p>Extracción limpia que resalta notas florales y acidez brillante.</p>
+                    <span class="guide-badge-ratio">15g Café : 250ml Agua</span>
+                </div>
+                <div class="guide-card">
+                    <h4>Prensa Francesa</h4>
+                    <p>Cuerpo denso, aceites esenciales y notas a chocolate y panela.</p>
+                    <span class="guide-badge-ratio">30g Café : 500ml Agua</span>
+                </div>
+                <div class="guide-card">
+                    <h4>Espresso / Moka</h4>
+                    <p>Intenso, robusto y perfecto para disfrutar con leche o solo.</p>
+                    <span class="guide-badge-ratio">18g Café : 36g En Taza</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUIZ INTERACTIVO -->
+        <section class="quiz-container">
+            <h3>☕ ¿No sabes cuál café elegir?</h3>
+            <p>Descubre en segundos la variedad exacta cultivada en nuestros lotes que se adapta a tu paladar.</p>
+            <div class="quiz-options">
+                <button class="btn-quiz" onclick="lanzarQuiz('frutal')">Notas Frutales & Florales (Geisha/Sidra)</button>
+                <button class="btn-quiz" onclick="lanzarQuiz('chocolate')">Chocolate & Panela (Castillo/Caturra)</button>
+                <button class="btn-quiz" onclick="lanzarQuiz('miel')">Dulzor Equilibrado (Borbón Rosado)</button>
+            </div>
+        </section>
+
+        <!-- CONTROLES Y FILTROS -->
+        <section class="controls-wrapper">
+            <div class="category-pills">
+                <button class="cat-btn active" onclick="filtrarCategoria('todos', this)">Todos los Productos</button>
+                <button class="cat-btn" onclick="filtrarCategoria('Granos', this)">Café en Grano</button>
+                <button class="cat-btn" onclick="filtrarCategoria('Molido', this)">Café Molido</button>
+                <button class="cat-btn" onclick="filtrarCategoria('Edicion', this)">Ediciones Especiales</button>
+            </div>
+
+            <div class="filter-selectors">
+                <div style="display:flex; gap:15px; flex-wrap:wrap;">
+                    <div class="select-box">
+                        <label>Variedad:</label>
+                        <select id="sel-variedad" onchange="ejecutarFiltros()">
+                            <option value="todos">Todas las Variedades</option>
+                            <option value="Borbón Rosado">Borbón Rosado</option>
+                            <option value="Castillo">Castillo</option>
+                            <option value="Geisha">Geisha</option>
+                            <option value="Caturra">Caturra</option>
+                            <option value="Sidra">Sidra</option>
+                            <option value="Tabi">Tabi</option>
+                        </select>
+                    </div>
+
+                    <div class="select-box">
+                        <label>Proceso:</label>
+                        <select id="sel-proceso" onchange="ejecutarFiltros()">
+                            <option value="todos">Todos los Procesos</option>
+                            <option value="Honey">Honey</option>
+                            <option value="Lavado">Lavado</option>
+                            <option value="Natural">Natural</option>
+                            <option value="Anaeróbico">Anaeróbico</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="select-box">
+                    <label>Ordenar por:</label>
+                    <select id="sel-orden" onchange="ejecutarFiltros()">
+                        <option value="destacado">Recomendados / Destacados</option>
+                        <option value="precio-bajo">Precio: Menor a Mayor</option>
+                        <option value="precio-alto">Precio: Mayor a Menor</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- GRID DE PRODUCTOS -->
+        <section class="products-grid" id="container-productos">
+            <!-- Renderizado dinámico por JS -->
+        </section>
+
+        <!-- TESTIMONIOS & AÑADIR RESEÑA -->
+        <section class="testimonials-section">
+            <h3>Lo que dicen los amantes del buen café</h3>
+            
+            <!-- Contenedor dinámico de opiniones -->
+            <div class="testimonials-grid" id="container-testimonios">
+                <div class="testimonial-card">
+                    <div>
+                        <div class="stars">★★★★★</div>
+                        <p class="testimonial-text">"El Borbón Rosado Honey tiene unas notas a melocotón increíbles. Se nota que viene directo de Támesis con muchísimo esmero."</p>
+                    </div>
+                    <div class="testimonial-author">— Camila Restrepo (Bogotá)</div>
+                </div>
+                <div class="testimonial-card">
+                    <div>
+                        <div class="stars">★★★★★</div>
+                        <p class="testimonial-text">"Compré la edición Geisha para regalo y quedé fascinado. Aroma impecable y empaque con válvula desgasificadora de primera."</p>
+                    </div>
+                    <div class="testimonial-author">— Mateo Jaramillo (Medellín)</div>
+                </div>
+                <div class="testimonial-card">
+                    <div>
+                        <div class="stars">★★★★★</div>
+                        <p class="testimonial-text">"El envío llegó súper rápido y el café fresco. Tomar esta taza todas las mañanas es un viaje directo al Suroeste antioqueño."</p>
+                    </div>
+                    <div class="testimonial-author">— Sofía Valencia (Cali)</div>
+                </div>
+            </div>
+
+            <!-- Caja para que el usuario añada su propia reseña -->
+            <div class="add-review-box">
+                <h4>✍️ ¿Ya probaste nuestro café? ¡Déjanos tu reseña!</h4>
+                <form onsubmit="agregarNuevaResena(event)">
+                    <div class="review-form-grid">
+                        <div class="form-row" style="margin-bottom:0;">
+                            <label>Tu Nombre o Ciudad</label>
+                            <input type="text" id="input-autor-resena" required placeholder="Ej. Andrés Martínez (Manizales)">
+                        </div>
+                        <div class="form-row" style="margin-bottom:0;">
+                            <label>Calificación (Estrellas)</label>
+                            <select id="input-estrellas-resena">
+                                <option value="5">★★★★★ (5/5 - Excelente)</option>
+                                <option value="4">★★★★☆ (4/5 - Muy bueno)</option>
+                                <option value="3">★★★☆☆ (3/5 - Bueno)</option>
+                            </select>
+                        </div>
+                        <div class="form-row full-width" style="margin-bottom:12px;">
+                            <label>Tu Opinión</label>
+                            <textarea id="input-texto-resena" rows="2" required placeholder="Cuéntanos qué te pareció el aroma, sabor o el envío..."></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-add-cart" style="justify-content:center; width:100%;">Publicar mi Reseña</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- SELLO DE GARANTÍA -->
+        <div class="guarantee-bar">
+            <div class="guarantee-item">
+                <h4>🛡️ Garantía de Frescura 100%</h4>
+                <p>Tueste fresco garantizado y empaque con válvula desgasificadora.</p>
+            </div>
+            <div class="guarantee-item">
+                <h4>🔒 Pagos 100% Seguros</h4>
+                <p>Transacciones cifradas con las pasarelas líderes en Colombia.</p>
+            </div>
+            <div class="guarantee-item">
+                <h4>👨‍🌾 Directo del Caficultor</h4>
+                <p>Sin intermediarios, apoyando directamente a las familias de Támesis.</p>
+            </div>
+        </div>
+
+        <!-- CLUB DEL CAFÉ -->
+        <section class="club-banner">
+            <div>
+                <h3>Únete al Club Café para Siempre</h3>
+                <p>Recibe mensualmente en la puerta de tu casa tu variedad favorita con un <strong>10% de descuento automático</strong>, acumulación doble de puntos y acceso anticipado a cosechas limitadas.</p>
+            </div>
+            <button class="btn-club" onclick="alert('¡Pronto habilitaremos el formulario de suscripción mensual del Club!')">Suscribirme al Club</button>
+        </section>
+    </main>
+
+    <!-- CHATBOT FLOTANTE -->
+    <div class="chatbot-widget">
+        <div class="chatbot-box" id="chatbot-box">
+            <div class="chat-header">
+                <span>☕ Barista AI - Támesis</span>
+                <button onclick="toggleChatbot()" style="background:none; border:none; color:white; font-size:1.2rem; cursor:pointer;">&times;</button>
+            </div>
+            <div class="chat-body" id="chat-body">
+                <div class="chat-msg bot">¡Hola! Soy tu experto barista de Támesis. ¿Qué método de extracción usas en casa o qué tipo de café buscas hoy?</div>
+            </div>
+            <div class="chat-footer">
+                <input type="text" id="chat-input" placeholder="Escribe tu consulta..." onkeypress="if(event.key==='Enter') enviarMensajeChat()">
+                <button onclick="enviarMensajeChat()">➤</button>
+            </div>
+        </div>
+        <button class="chatbot-btn" onclick="toggleChatbot()">💬</button>
+    </div>
+
+    <!-- CARRITO DRAWER -->
+    <div class="drawer-overlay" id="drawer-overlay" onclick="toggleCartDrawer()"></div>
+    <div class="cart-drawer" id="cart-drawer">
+        <div class="drawer-header">
+            <h3 style="font-size:1.2rem; font-weight:800;">🛒 Tu Carrito Cafetero</h3>
+            <button onclick="toggleCartDrawer()" style="background:none; border:none; color:white; font-size:1.5rem; cursor:pointer;">&times;</button>
+        </div>
+
+        <div class="drawer-body" id="cart-list-container">
+            <p style="text-align:center; color:var(--text-muted); margin-top:50px; font-weight:600;">Tu carrito está vacío actualmente.</p>
+        </div>
+
+        <div class="drawer-footer">
+            <div class="price-summary">
+                <div><span>Subtotal:</span> <span id="val-subtotal" style="font-weight:700;">$0</span></div>
+                <div><span>Envío (Nacional):</span> <span id="val-envio-monto" style="font-weight:700;">$12.000</span></div>
+                <div style="font-size:0.85rem; color:var(--green-leaf); font-weight:700; margin:6px 0;"><span>Puntos a Acumular:</span> <span id="val-puntos-ganados">0 Puntos</span></div>
+                <div class="total-row"><span>Total a Pagar:</span> <span id="val-total">$0</span></div>
+            </div>
+            <button class="btn-checkout" onclick="abrirCheckoutModal()">Proceder al Pago Seguro</button>
+        </div>
+    </div>
+
+    <!-- MODAL FICHA TÉCNICA -->
+    <div class="modal-overlay" id="modal-ficha">
+        <div class="modal-card">
+            <button class="modal-close" onclick="cerrarFichaModal()">&times;</button>
+            <div id="ficha-content"></div>
+        </div>
+    </div>
+
+    <!-- MODAL CHECKOUT -->
+    <div class="modal-overlay" id="modal-checkout">
+        <div class="modal-card">
+            <button class="modal-close" onclick="cerrarCheckoutModal()">&times;</button>
+            <h3 style="color:var(--primary); font-weight:800; font-size:1.3rem; margin-bottom:18px;">Finalizar Pedido & Regalo</h3>
+            
+            <form onsubmit="confirmarPedidoFinal(event)">
+                <div class="form-row">
+                    <label>Nombre del Destinatario</label>
+                    <input type="text" id="chk-nombre" required placeholder="Nombre completo">
+                </div>
+                <div class="form-row">
+                    <label>Dirección de Envío Completa</label>
+                    <input type="text" required placeholder="Calle, Carrera, Número, Municipio">
+                </div>
+                <div class="form-row">
+                    <label>Tarjeta de Regalo / Dedicatoria Personalizada (Opcional)</label>
+                    <textarea id="chk-dedicatoria" rows="2" placeholder="Ej. Para el mejor amante del café en su cumpleaños..."></textarea>
+                </div>
+                <div class="form-row">
+                    <label>Método de Pago Preferido</label>
+                    <select required>
+                        <option value="pse">PSE / Transferencia Bancaria Segura</option>
+                        <option value="nequi">Nequi / Daviplata</option>
+                        <option value="tarjeta">Tarjeta de Crédito / Débito</option>
+                        <option value="finca">Pago Contraentrega / Recogida en Finca</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-checkout" style="margin-top:22px;">
+                    Confirmar Compra por (<span id="chk-total-badge">$0</span>)
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SCRIPT DE INTERACTIVIDAD -->
+    <script>
+        const BASE_PRODUCTOS = [
+            {
+                id: "CPS-101", nombre: "Bolsa Borbón Rosado Honey", categoria: "Granos", variedad: "Borbón Rosado",
+                proceso: "Honey", fermentacion: "48 Horas", tueste: "Medio", peso: "500g", precio: 35000,
+                notas: "Jazmín, melocotón y dulzor a miel silvestre", altitud: "1,900 m.s.n.m.", stock: 3,
+                maridaje: "Torta de chocolate amargo o frutos rojos frescos.",
+                trazabilidad: "Lote La Alacena - Cultivado por familias caficultoras tradicionales en Támesis.",
+                tuesteFecha: "Tostado fresco hace 24 horas (Batch de Finca)"
+            },
+            {
+                id: "CPS-102", nombre: "Bolsa Castillo Tradición Lavado", categoria: "Molido", variedad: "Castillo",
+                proceso: "Lavado", fermentacion: "24 Horas", tueste: "Medio-Oscuro", peso: "1000g", precio: 48000,
+                notas: "Chocolate negro, panela y frutos secos", altitud: "1,750 m.s.n.m.", stock: 30,
+                maridaje: "Pan de bono recién horneado o arepa de queso antioqueña.",
+                trazabilidad: "Suroeste Antioqueño - Cero intermediarios, beneficio húmedo certificado.",
+                tuesteFecha: "Tostado fresco para despacho semanal"
+            },
+            {
+                id: "CPS-103", nombre: "Bolsa Geisha Aniversario Natural", categoria: "Edicion", variedad: "Geisha",
+                proceso: "Natural", fermentacion: "72 Horas", tueste: "Claro", peso: "250g", precio: 45000,
+                notas: "Bergamota, frutos rojos y lemongrass", altitud: "2,000 m.s.n.m.", stock: 2,
+                maridaje: "Quesos madurados suaves o repostería fina.",
+                trazabilidad: "Edición Limitada - Altísima montaña en Támesis con agua 100% protegida.",
+                tuesteFecha: "Tostado bajo demanda (Frescura absoluta)"
+            },
+            {
+                id: "CPS-104", nombre: "Bolsa Caturra Especial Finca", categoria: "Granos", variedad: "Caturra",
+                proceso: "Lavado", fermentacion: "30 Horas", tueste: "Medio", peso: "500g", precio: 28000,
+                notas: "Cítricos suaves, caramelo y nuez tostada", altitud: "1,800 m.s.n.m.", stock: 25,
+                maridaje: "Desayuno tradicional y galletas de mantequilla.",
+                trazabilidad: "Finca La Sierra - Estándares de calidad de exportación global.",
+                tuesteFecha: "Tostado fresco hace 48 horas"
+            },
+            {
+                id: "CPS-105", nombre: "Bolsa Sidra Anaeróbico Finca", categoria: "Edicion", variedad: "Sidra",
+                proceso: "Anaeróbico", fermentacion: "96 Horas", tueste: "Claro", peso: "250g", precio: 52000,
+                notas: "Cereza madura, vino tinto y especias finas", altitud: "1,950 m.s.n.m.", stock: 4,
+                maridaje: "Brownie de chocolate con nueces o postres de café.",
+                trazabilidad: "Fermentación controlada en tanques de acero inoxidable en Támesis.",
+                tuesteFecha: "Tostado fresco hace 24 horas"
+            },
+            {
+                id: "CPS-106", nombre: "Bolsa Tabi Cosecha Nocturna", categoria: "Molido", variedad: "Tabi",
+                proceso: "Natural", fermentacion: "60 Horas", tueste: "Oscuro", peso: "1000g", precio: 56000,
+                notas: "Cacao intenso, ciruela pasa y malta", altitud: "1,850 m.s.n.m.", stock: 12,
+                maridaje: "Desayunos fuertes y panela artesanal.",
+                trazabilidad: "Cosecha nocturna bajo luz de luna para retener azúcares en el grano.",
+                tuesteFecha: "Tostado fresco para despacho semanal"
+            }
+        ];
+
+        let listaResenas = [
+            { autor: "Camila Restrepo (Bogotá)", estrellas: "★★★★★", texto: "El Borbón Rosado Honey tiene unas notas a melocotón increíbles. Se nota que viene directo de Támesis con muchísimo esmero." },
+            { autor: "Mateo Jaramillo (Medellín)", estrellas: "★★★★★", texto: "Compré la edición Geisha para regalo y quedé fascinado. Aroma impecable y empaque con válvula desgasificadora de primera." },
+            { autor: "Sofía Valencia (Cali)", estrellas: "★★★★★", texto: "El envío llegó súper rápido y el café fresco. Tomar esta taza todas las mañanas es un viaje directo al Suroeste antioqueño." }
+        ];
+
+        let carrito = [];
+        let categoriaActual = 'todos';
+        const META_ENVIO_GRATIS = 100000;
+
+        window.onload = function() {
+            const usuario = localStorage.getItem('usuarioActivo') || 'Cliente Registrado';
+            const nombre = localStorage.getItem('nombreCliente') || usuario.split('@')[0];
+            document.getElementById('label-usuario').innerText = nombre;
+            document.getElementById('chk-nombre').value = nombre;
+            ejecutarFiltros();
+            renderizarResenas();
+        };
+
+        function renderizarResenas() {
+            const container = document.getElementById('container-testimonios');
+            container.innerHTML = '';
+            listaResenas.forEach(res => {
+                const card = document.createElement('div');
+                card.className = 'testimonial-card';
+                card.innerHTML = `
+                    <div>
+                        <div class="stars">${res.estrellas}</div>
+                        <p class="testimonial-text">"${res.texto}"</p>
+                    </div>
+                    <div class="testimonial-author">— ${res.autor}</div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function agregarNuevaResena(e) {
+            e.preventDefault();
+            const autor = document.getElementById('input-autor-resena').value;
+            const numEstrellas = parseInt(document.getElementById('input-estrellas-resena').value);
+            const texto = document.getElementById('input-texto-resena').value;
+
+            let estrellasStr = "★★★★★";
+            if (numEstrellas === 4) estrellasStr = "★★★★☆";
+            if (numEstrellas === 3) estrellasStr = "★★★☆☆";
+
+            listaResenas.unshift({ autor: autor, estrellas: estrellasStr, texto: texto });
+            renderizarResenas();
+
+            document.getElementById('input-autor-resena').value = '';
+            document.getElementById('input-texto-resena').value = '';
+            alert('¡Gracias por tu reseña! Ha sido publicada exitosamente en la tienda.');
+        }
+
+        function actualizarSimuladorAltitud(val) {
+            document.getElementById('sim-alt').innerText = `${parseInt(val).toLocaleString()} m.s.n.m.`;
+            if (val >= 1950) {
+                document.getElementById('sim-acidez').innerText = "Cítrica & Floral";
+            } else if (val >= 1800) {
+                document.getElementById('sim-acidez').innerText = "Frutal & Miel";
+            } else {
+                document.getElementById('sim-acidez').innerText = "Chocolate & Panela";
+            }
+        }
+
+        function calcularConsumoMensual(tazas) {
+            document.getElementById('calc-tazas').innerText = `${tazas} Tazas / Día`;
+            let bolsas = Math.ceil((tazas * 30) / 25);
+            document.getElementById('calc-bolsas').innerText = `${bolsas} Bolsa(s) de 500g / Mes`;
+        }
+
+        function renderizarGrid(lista) {
+            const container = document.getElementById('container-productos');
+            container.innerHTML = '';
+
+            if (lista.length === 0) {
+                container.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:var(--text-muted); padding:50px; font-weight:600;">No se encontraron productos con los filtros seleccionados.</p>';
+                return;
+            }
+
+            lista.forEach(prod => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                const stockAlert = prod.stock <= 4 ? `<span class="badge-stock-alert">¡Últimas ${prod.stock} bolsas!</span>` : '';
+                card.innerHTML = `
+                    <div>
+                        <div class="bag-stage">
+                            <span class="badge-id">${prod.id}</span>
+                            ${stockAlert}
+                            <div class="bag-real">
+                                <div class="bag-valve"></div>
+                                <div class="bag-label">
+                                    <div class="bag-label-brand">Café para Siempre</div>
+                                    <div class="bag-label-var">${prod.variedad}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-body">
+                            <div class="product-title">${prod.nombre}</div>
+                            <div class="specs-list">
+                                <div><span>Variedad:</span> <span>${prod.variedad}</span></div>
+                                <div><span>Proceso:</span> <span>${prod.proceso}</span></div>
+                                <div><span>Fermentación:</span> <span>${prod.fermentacion}</span></div>
+                                <div><span>Tueste:</span> <span>${prod.tueste}</span></div>
+                            </div>
+                            <button class="btn-view-details" onclick="abrirFichaModal('${prod.id}')">
+                                Ficha Técnica, Tueste & Molienda
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="product-footer">
+                        <div class="price-tag">$${prod.precio.toLocaleString('es-CO')}</div>
+                        <button class="btn-add-cart" onclick="agregarAlCarrito('${prod.id}')">
+                            Agregar
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filtrarCategoria(cat, btn) {
+            categoriaActual = cat;
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            ejecutarFiltros();
+        }
+
+        function ejecutarFiltros() {
+            const texto = document.getElementById('input-buscar').value.toLowerCase();
+            const variedad = document.getElementById('sel-variedad').value;
+            const proceso = document.getElementById('sel-proceso').value;
+            const orden = document.getElementById('sel-orden').value;
+
+            let resultado = BASE_PRODUCTOS.filter(p => {
+                const matchCat = (categoriaActual === 'todos' || p.categoria === categoriaActual);
+                const matchVar = (variedad === 'todos' || p.variedad === variedad);
+                const matchProc = (proceso === 'todos' || p.proceso === proceso);
+                const matchText = p.nombre.toLowerCase().includes(texto) || p.notas.toLowerCase().includes(texto);
+                return matchCat && matchVar && matchProc && matchText;
+            });
+
+            if (orden === 'precio-bajo') resultado.sort((a,b) => a.precio - b.precio);
+            if (orden === 'precio-alto') resultado.sort((a,b) => b.precio - a.precio);
+
+            renderizarGrid(resultado);
+        }
+
+        function lanzarQuiz(tipo) {
+            if (tipo === 'frutal') {
+                document.getElementById('sel-variedad').value = 'Geisha';
+            } else if (tipo === 'chocolate') {
+                document.getElementById('sel-variedad').value = 'Castillo';
+            } else if (tipo === 'miel') {
+                document.getElementById('sel-variedad').value = 'Borbón Rosado';
+            }
+            ejecutarFiltros();
+            window.scrollTo({ top: 1100, behavior: 'smooth' });
+        }
+
+        function agregarAlCarrito(id) {
+            const prod = BASE_PRODUCTOS.find(p => p.id === id);
+            const itemEnCarrito = carrito.find(item => item.id === id);
+
+            if (itemEnCarrito) {
+                itemEnCarrito.cantidad++;
+            } else {
+                carrito.push({ ...prod, cantidad: 1 });
+            }
+
+            actualizarCarritoUI();
+            toggleCartDrawer(true);
+        }
+
+        function cambiarCantidad(index, delta) {
+            carrito[index].cantidad += delta;
+            if (carrito[index].cantidad <= 0) {
+                carrito.splice(index, 1);
+            }
+            actualizarCarritoUI();
+        }
+
+        function actualizarCarritoUI() {
+            const container = document.getElementById('cart-list-container');
+            const totalCount = carrito.reduce((acc, item) => acc + item.cantidad, 0);
+            document.getElementById('badge-cart-count').innerText = totalCount;
+
+            if (carrito.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:50px; font-weight:600;">Tu carrito está vacío actualmente.</p>';
+                document.getElementById('val-subtotal').innerText = '$0';
+                document.getElementById('val-total').innerText = '$0';
+                document.getElementById('val-envio-monto').innerText = '$12.000';
+                document.getElementById('val-puntos-ganados').innerText = '0 Puntos';
+                return;
+            }
+
+            container.innerHTML = '';
+            let subtotal = 0;
+
+            carrito.forEach((item, index) => {
+                subtotal += (item.precio * item.cantidad);
+                const row = document.createElement('div');
+                row.className = 'cart-item-row';
+                row.innerHTML = `
+                    <div>
+                        <div style="font-weight:800; font-size:0.9rem; color:var(--primary);">${item.nombre}</div>
+                        <div style="font-size:0.82rem; color:var(--green-leaf); font-weight:700; margin-top:2px;">$${(item.precio * item.cantidad).toLocaleString('es-CO')}</div>
+                    </div>
+                    <div class="cart-item-qty">
+                        <button class="qty-btn" onclick="cambiarCantidad(${index}, -1)">-</button>
+                        <span style="font-size:0.9rem; font-weight:800;">${item.cantidad}</span>
+                        <button class="qty-btn" onclick="cambiarCantidad(${index}, 1)">+</button>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+
+            let envio = subtotal >= META_ENVIO_GRATIS ? 0 : 12000;
+            let puntosCashback = Math.round(subtotal / 1000);
+
+            if (envio === 0) {
+                document.getElementById('val-envio-monto').innerText = '$0 (¡GRATIS!)';
+            } else {
+                document.getElementById('val-envio-monto').innerText = '$12.000';
+            }
+
+            document.getElementById('val-subtotal').innerText = `$${subtotal.toLocaleString('es-CO')}`;
+            document.getElementById('val-puntos-ganados').innerText = `+${puntosCashback} Puntos (Cashback Finca)`;
+            document.getElementById('val-total').innerText = `$${(subtotal + envio).toLocaleString('es-CO')}`;
+            document.getElementById('chk-total-badge').innerText = `$${(subtotal + envio).toLocaleString('es-CO')}`;
+        }
+
+        function toggleCartDrawer(forceOpen = false) {
+            const drawer = document.getElementById('cart-drawer');
+            const overlay = document.getElementById('drawer-overlay');
+            if (forceOpen) {
+                drawer.classList.add('active');
+                overlay.classList.add('active');
+            } else {
+                drawer.classList.toggle('active');
+                overlay.classList.toggle('active');
+            }
+        }
+
+        function toggleChatbot() {
+            document.getElementById('chatbot-box').classList.toggle('active');
+        }
+
+        function enviarMensajeChat() {
+            const input = document.getElementById('chat-input');
+            const texto = input.value.trim();
+            if (!texto) return;
+
+            const chatBody = document.getElementById('chat-body');
+            const userMsg = document.createElement('div');
+            userMsg.className = 'chat-msg user';
+            userMsg.innerText = texto;
+            chatBody.appendChild(userMsg);
+            input.value = '';
+
+            setTimeout(() => {
+                const botMsg = document.createElement('div');
+                botMsg.className = 'chat-msg bot';
+                botMsg.innerText = "¡Excelente consulta! Para ese método te recomiendo nuestro Borbón Rosado Honey o el Geisha Aniversario. ¿Te gustaría agregarlo al carrito?";
+                chatBody.appendChild(botMsg);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }, 600);
+
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        function abrirFichaModal(id) {
+            const p = BASE_PRODUCTOS.find(item => item.id === id);
+            const content = document.getElementById('ficha-content');
+            content.innerHTML = `
+                <h3 style="color:var(--primary); font-weight:800; font-size:1.35rem; margin-bottom:10px;">${p.nombre}</h3>
+                <div style="background:var(--bg-body); padding:18px; border-radius:var(--radius-sm); margin-bottom:18px; font-size:0.9rem; line-height:1.6; border:1px solid var(--border-color);">
+                    <div style="margin-bottom:6px;"><b>Notas de Cata:</b> <span style="color:var(--green-leaf); font-weight:700;">${p.notas}</span></div>
+                    <div style="margin-bottom:6px;"><b>Altitud:</b> ${p.altitud} (Támesis, Antioquia)</div>
+                    <div style="margin-bottom:6px;"><b>Proceso:</b> ${p.proceso} (${p.fermentacion})</div>
+                    <div style="margin-bottom:6px;"><b>Maridaje Sugerido:</b> <span style="font-style:italic;">${p.maridaje}</span></div>
+                    <div style="margin-bottom:6px;"><b>Fecha de Tueste:</b> <span style="color:var(--green-leaf); font-weight:700;">${p.tuesteFecha}</span></div>
+                    <div style="margin-bottom:10px;"><b>Trazabilidad:</b> ${p.trazabilidad}</div>
+                    
+                    <div style="border-top:1px dashed var(--border-color); padding-top:10px; margin-top:10px;">
+                        <label style="display:block; font-weight:700; color:var(--primary); margin-bottom:6px;">Elige el Tipo de Molienda:</label>
+                        <select id="molienda-sel" style="width:100%; padding:8px; border-radius:6px; border:1px solid var(--border-color); font-size:0.85rem;">
+                            <option value="Grano Entero">Grano Entero (Máxima frescura)</option>
+                            <option value="Media (Filtro/V60)">Molienda Media (Cafetera de Filtro / V60 / Chemex)</option>
+                            <option value="Gruesa (Prensa)">Molienda Gruesa (Prensa Francesa / Cold Brew)</option>
+                            <option value="Fina (Espresso)">Molienda Fina (Espresso / Moka)</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn-add-cart" style="width:100%; justify-content:center; padding:14px;" onclick="agregarAlCarrito('${p.id}'); cerrarFichaModal();">
+                    Agregar al Carrito - $${p.precio.toLocaleString('es-CO')}
+                </button>
+            `;
+            document.getElementById('modal-ficha').classList.add('active');
+        }
+
+        function cerrarFichaModal() { document.getElementById('modal-ficha').classList.remove('active'); }
+
+        function abrirCheckoutModal() {
+            if (carrito.length === 0) {
+                alert('Añade al menos un producto al carrito para continuar.');
+                return;
+            }
+            toggleCartDrawer();
+            document.getElementById('modal-checkout').classList.add('active');
+        }
+
+        function cerrarCheckoutModal() { document.getElementById('modal-checkout').classList.remove('active'); }
+
+        function confirmarPedidoFinal(e) {
+            e.preventDefault();
+            const dedicatoria = document.getElementById('chk-dedicatoria').value;
+            if (dedicatoria) {
+                alert('¡Compra realizada con éxito! Hemos incluido tu tarjeta de dedicatoria personalizada en la caja de envío de Café para Siempre.');
+            } else {
+                alert('¡Compra realizada con éxito! Tu pedido ha sido registrado en el sistema enterprise y la guía de despacho ha sido generada.');
+            }
+            carrito = [];
+            actualizarCarritoUI();
+            cerrarCheckoutModal();
+        }
+
+        function cerrarSesion() {
+            localStorage.removeItem('usuarioActivo');
+            localStorage.removeItem('rolUsuario');
+        }
+    </script>
+</body>
+</html>

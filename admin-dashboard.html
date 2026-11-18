@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Management System | Café para Siempre - Támesis</title>
+    
+    <!-- Fuentes e Iconos certificados de Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+
+    <style>
+        :root {
+            --espresso: #1E120B;
+            --espresso-dark: #0D0704;
+            --gold-accent: #C68B59;
+            --gold-light: #F7EFE5;
+            --tamesis-green: #244822;
+            --tamesis-green-hover: #1A3618;
+            --bg-canvas: #F8F6F0;
+            --surface-card: #FFFFFF;
+            --border-subtle: #E8E2D5;
+            --text-main: #2C221E;
+            --text-muted: #7A6F68;
+            --white: #FFFFFF;
+            --danger: #C0392B;
+            --danger-bg: #FADBD8;
+            --success: #27AE60;
+            --success-bg: #EAFAF1;
+            --shadow-card: 0 10px 30px rgba(30, 18, 11, 0.05);
+            --shadow-hover: 0 20px 40px rgba(30, 18, 11, 0.1);
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-canvas);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            font-size: 22px;
+            vertical-align: middle;
+            line-height: 1;
+        }
+
+        aside {
+            width: 290px;
+            background: var(--espresso-dark);
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: fixed;
+            height: 100vh;
+            border-right: 1px solid rgba(198, 139, 89, 0.2);
+            z-index: 100;
+        }
+
+        .sidebar-brand-box {
+            padding: 30px 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .sidebar-brand-box img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid var(--gold-accent);
+            object-fit: cover;
+        }
+
+        .sidebar-brand-info h2 {
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: -0.3px;
+        }
+
+        .sidebar-brand-info span {
+            font-size: 0.72rem;
+            color: var(--gold-accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 24px 16px;
+            flex-grow: 1;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 8px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 13px 18px;
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background: var(--gold-accent);
+            color: var(--espresso-dark);
+            transform: translateX(4px);
+        }
+
+        .sidebar-footer-box {
+            padding: 20px 24px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .btn-logout-enterprise {
+            width: 100%;
+            background: rgba(192, 57, 43, 0.15);
+            color: #E74C3C;
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s;
+        }
+
+        .btn-logout-enterprise:hover {
+            background: var(--danger);
+            color: var(--white);
+        }
+
+        main {
+            margin-left: 290px;
+            flex-grow: 1;
+            padding: 40px;
+        }
+
+        .enterprise-topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+            background: var(--surface-card);
+            padding: 24px 32px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-subtle);
+            box-shadow: var(--shadow-card);
+        }
+
+        .topbar-titles h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--espresso);
+            letter-spacing: -0.5px;
+        }
+
+        .topbar-titles p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .user-pill-badge {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--gold-light);
+            padding: 8px 18px;
+            border-radius: 30px;
+            border: 1px solid var(--gold-accent);
+        }
+
+        .user-pill-badge img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--gold-accent);
+        }
+
+        .dashboard-view {
+            display: none;
+        }
+
+        .dashboard-view.active {
+            display: block;
+            animation: fadeInSection 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeInSection {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .kpi-matrix {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-bottom: 35px;
+        }
+
+        .kpi-enterprise-card {
+            background: var(--surface-card);
+            padding: 24px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-subtle);
+            box-shadow: var(--shadow-card);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .kpi-enterprise-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--gold-accent);
+        }
+
+        .kpi-icon-box {
+            width: 60px;
+            height: 60px;
+            background: var(--gold-light);
+            color: var(--espresso);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .kpi-text-box span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .kpi-text-box h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--espresso);
+            margin-top: 4px;
+            letter-spacing: -0.5px;
+        }
+
+        .enterprise-card {
+            background: var(--surface-card);
+            border-radius: var(--radius-md);
+            padding: 30px;
+            border: 1px solid var(--border-subtle);
+            box-shadow: var(--shadow-card);
+            margin-bottom: 35px;
+        }
+
+        .card-header-enterprise {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .card-header-enterprise h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--espresso);
+            letter-spacing: -0.3px;
+        }
+
+        .btn-enterprise-primary {
+            background: var(--tamesis-green);
+            color: var(--white);
+            border: none;
+            padding: 11px 22px;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 0.88rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.2s;
+        }
+
+        .btn-enterprise-primary:hover {
+            background: var(--tamesis-green-hover);
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background: #F4EFEA;
+            color: var(--espresso);
+            padding: 16px 20px;
+            font-weight: 700;
+            border-bottom: 2px solid var(--border-subtle);
+            letter-spacing: -0.2px;
+        }
+
+        td {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-subtle);
+            color: var(--text-main);
+            vertical-align: middle;
+        }
+
+        tr:hover { background: rgba(198, 139, 89, 0.02); }
+
+        .status-pill {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        .status-pill.success { background: var(--success-bg); color: var(--success); }
+        .status-pill.warning { background: #FEF9E7; color: #D4AC0D; }
+
+        .action-btns-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-table-action {
+            border: none;
+            padding: 7px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.8rem;
+        }
+
+        .btn-edit-action { background: var(--gold-light); color: var(--espresso); border: 1px solid var(--gold-accent); }
+        .btn-edit-action:hover { background: var(--gold-accent); color: var(--white); }
+
+        .btn-delete-action { background: var(--danger-bg); color: var(--danger); }
+        .btn-delete-action:hover { background: var(--danger); color: var(--white); }
+
+        .enterprise-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(30, 18, 11, 0.7);
+            backdrop-filter: blur(6px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .enterprise-modal-overlay.active { display: flex; }
+
+        .enterprise-modal-box {
+            background: var(--surface-card);
+            width: 100%;
+            max-width: 540px;
+            border-radius: var(--radius-lg);
+            padding: 36px;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+        }
+
+        .modal-close-x {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .form-control-enterprise {
+            margin-bottom: 20px;
+        }
+
+        .form-control-enterprise label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--espresso);
+            margin-bottom: 8px;
+        }
+
+        .form-control-enterprise input, .form-control-enterprise select {
+            width: 100%;
+            padding: 13px 16px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-subtle);
+            background: var(--bg-canvas);
+            font-size: 0.92rem;
+            color: var(--text-main);
+            outline: none;
+            transition: border 0.2s;
+        }
+
+        .form-control-enterprise input:focus, .form-control-enterprise select:focus {
+            border-color: var(--gold-accent);
+            background: var(--white);
+            box-shadow: 0 0 0 3px rgba(198, 139, 89, 0.15);
+        }
+    </style>
+</head>
+<body>
+
+    <aside>
+        <div>
+            <div class="sidebar-brand-box">
+                <img src="https://alcompasdeantioquia.com/wp-content/uploads/2022/10/800px-Tamesis_Antioquia.jpg" alt="Támesis">
+                <div class="sidebar-brand-info">
+                    <h2>Café para Siempre</h2>
+                    <span>Enterprise System</span>
+                </div>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li><a href="javascript:void(0)" class="active" onclick="switchDashboardView('view-analytics', this)"><span class="material-symbols-outlined">analytics</span> Analítica & KPIs</a></li>
+                <li><a href="javascript:void(0)" onclick="switchDashboardView('view-lotes', this)"><span class="material-symbols-outlined">eco</span> Control de Lotes & Finca</a></li>
+                <li><a href="javascript:void(0)" onclick="switchDashboardView('view-insumos', this)"><span class="material-symbols-outlined">nutrition</span> Insumos, Abonos y Costos</a></li>
+                <li><a href="javascript:void(0)" onclick="switchDashboardView('view-contabilidad', this)"><span class="material-symbols-outlined">account_balance</span> Contabilidad & Finanzas</a></li>
+                <li><a href="javascript:void(0)" onclick="switchDashboardView('view-inventario', this)"><span class="material-symbols-outlined">inventory_2</span> Inventario de Tienda</a></li>
+                <li><a href="javascript:void(0)" onclick="switchDashboardView('view-pedidos', this)"><span class="material-symbols-outlined">receipt_long</span> Órdenes de Clientes</a></li>
+                <li><a href="tienda.html"><span class="material-symbols-outlined">storefront</span> Ver Tienda Pública</a></li>
+                <li><a href="index.html"><span class="material-symbols-outlined">public</span> Página Principal</a></li>
+            </ul>
+        </div>
+        
+        <div class="sidebar-footer-box">
+            <a href="login.html" class="btn-logout-enterprise" onclick="cerrarSesionSistema()">
+                <span class="material-symbols-outlined">power_settings_new</span> Cerrar Sesión
+            </a>
+        </div>
+    </aside>
+
+    <main>
+        <header class="enterprise-topbar">
+            <div class="topbar-titles">
+                <h1 id="topbar-title-text">Analítica & KPIs Generales</h1>
+                <p>Plataforma internacional de administración y trazabilidad cafetera en Támesis, Antioquia</p>
+            </div>
+            <div class="user-pill-badge">
+                <img src="https://alcompasdeantioquia.com/wp-content/uploads/2022/10/800px-Tamesis_Antioquia.jpg" alt="Admin">
+                <div>
+                    <div style="font-size:0.88rem; font-weight:800; color:var(--espresso);">Administración</div>
+                    <div style="font-size:0.75rem; color:var(--success); font-weight:700;">● Sistema Activo</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- SECCIÓN: ANALÍTICA & KPIS -->
+        <section id="view-analytics" class="dashboard-view active">
+            <div class="kpi-matrix">
+                <div class="kpi-enterprise-card">
+                    <div class="kpi-icon-box"><span class="material-symbols-outlined">scale</span></div>
+                    <div class="kpi-text-box">
+                        <span>Cosecha Mensual</span>
+                        <h3 id="kpi-kilos-val">3,420 Kilos</h3>
+                    </div>
+                </div>
+                <div class="kpi-enterprise-card">
+                    <div class="kpi-icon-box"><span class="material-symbols-outlined">package_2</span></div>
+                    <div class="kpi-text-box">
+                        <span>Bolsas en Bodega</span>
+                        <h3 id="kpi-bolsas-val">145 Unidades</h3>
+                    </div>
+                </div>
+                <div class="kpi-enterprise-card">
+                    <div class="kpi-icon-box"><span class="material-symbols-outlined">payments</span></div>
+                    <div class="kpi-text-box">
+                        <span>Ventas Totales (Mes)</span>
+                        <h3>$14.850.000</h3>
+                    </div>
+                </div>
+                <div class="kpi-enterprise-card">
+                    <div class="kpi-icon-box"><span class="material-symbols-outlined">pending_actions</span></div>
+                    <div class="kpi-text-box">
+                        <span>Pedidos Pendientes</span>
+                        <h3 id="kpi-pedidos-val">2 Órdenes</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="enterprise-card">
+                <div class="card-header-enterprise">
+                    <h3>Trazabilidad y Calidad Internacional en Támesis</h3>
+                    <span style="font-size:0.85rem; color:var(--success); font-weight:700;"><span class="material-symbols-outlined">verified</span> Certificación Rainforest Alliance & Orgánica Vigente</span>
+                </div>
+                <p style="font-size:0.95rem; color:var(--text-muted); line-height:1.7;">
+                    El sistema corporativo procesa en tiempo real los parámetros de control contable, costos de producción, inventarios de café y control de despachos en Finca La Sierra.
+                </p>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: CONTROL DE LOTES & FINCA -->
+        <section id="view-lotes" class="dashboard-view">
+            <div class="enterprise-card">
+                <div class="card-header-enterprise">
+                    <h3>Monitoreo Global de Lotes y Población Cafetera</h3>
+                    <button class="btn-enterprise-primary" onclick="abrirModalLote()"><span class="material-symbols-outlined">add</span> Registrar Nuevo Lote</button>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID Lote</th>
+                                <th>Variedad</th>
+                                <th>Tamaño (Ha)</th>
+                                <th>Palos</th>
+                                <th>Cosecha</th>
+                                <th>Destino del Café</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-lotes-content">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: INSUMOS (CON FILTRO DESPLEGABLE) -->
+        <section id="view-insumos" class="dashboard-view">
+            <div class="enterprise-card">
+                <div class="card-header-enterprise">
+                    <h3>Control Detallado de Insumos, Abonos y Costos</h3>
+                    <button class="btn-enterprise-primary" onclick="abrirModalInsumo()"><span class="material-symbols-outlined">add</span> Registrar Nuevo Insumo</button>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID Insumo</th>
+                                <th>Nombre del Recurso</th>
+                                <th>Categoría Agrícola</th>
+                                <th>Cantidad</th>
+                                <th>Costo Unitario</th>
+                                <th>Costo Total (COP)</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-insumos-content">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: CONTABILIDAD Y FINANZAS -->
+        <section id="view-contabilidad" class="dashboard-view">
+            <div class="enterprise-card">
+                <div class="card-header-enterprise">
+                    <h3>Módulo Contable, Administrativo y Financiero</h3>
+                    <span style="font-size:0.85rem; font-weight:700; color:var(--success);"><span class="material-symbols-outlined">balance</span> Estado de Resultados Corporativo</span>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+                    <div style="background:var(--bg-canvas); padding:20px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+                        <h4 style="font-size:1rem; color:var(--espresso); margin-bottom:12px;"><span class="material-symbols-outlined" style="color:var(--danger);">trending_down</span> Egresos Mensuales</h4>
+                        <ul style="list-style:none; font-size:0.88rem; display:flex; flex-direction:column; gap:8px;">
+                            <li>• Mantenimiento de finca y riego: <b>$3.200.000</b></li>
+                            <li>• Compra de insumos mensuales: <b>$5.055.000</b></li>
+                            <li>• Nómina de empleados y recolectores: <b>$4.500.000</b></li>
+                            <li style="border-top:1px solid var(--border-subtle); padding-top:6px; font-weight:700; color:var(--danger);">Total Egresos: $12.755.000</li>
+                        </ul>
+                    </div>
+                    <div style="background:var(--bg-canvas); padding:20px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+                        <h4 style="font-size:1rem; color:var(--espresso); margin-bottom:12px;"><span class="material-symbols-outlined" style="color:var(--success);">trending_up</span> Ingresos y Utilidad</h4>
+                        <ul style="list-style:none; font-size:0.88rem; display:flex; flex-direction:column; gap:8px;">
+                            <li>• Ventas Totales Tienda (Mes): <b>$14.850.000</b></li>
+                            <li>• Destino de Cosecha: <b>Configurado por Lote (Tienda / Consumo)</b></li>
+                            <li>• Tasa de Secado: <b>~5 kg Cereza = 1 kg Pergamino</b></li>
+                            <li style="border-top:1px solid var(--border-subtle); padding-top:6px; font-weight:700; color:var(--success);">Utilidad Neta: +$2.095.000</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: INVENTARIO TIENDA -->
+        <section id="view-inventario" class="dashboard-view">
+            <div class="enterprise-card">
+                <div class="card-header-enterprise">
+                    <h3>Gestión de Inventario de Tienda</h3>
+                    <button class="btn-enterprise-primary" onclick="abrirModalInventario()"><span class="material-symbols-outlined">add_circle</span> Agregar Producto</button>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID Producto</th>
+                                <th>Nombre Comercial</th>
+                                <th>Variedad</th>
+                                <th>Precio (COP)</th>
+                                <th>Stock Actual</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-inventario-content">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: PEDIDOS DE CLIENTES -->
+        <section id="view-pedidos" class="dashboard-view">
+            <div class="enterprise-card">
+                <div class="card-header-enterprise">
+                    <h3>Órdenes de Compra y Edición de Estados de Envío</h3>
+                    <button class="btn-enterprise-primary" onclick="abrirModalPedido()"><span class="material-symbols-outlined">add</span> Registrar Orden Manual</button>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID Orden</th>
+                                <th>Cliente</th>
+                                <th>Detalle de Productos</th>
+                                <th>Total Facturado</th>
+                                <th>Estado de Envío / Despacho</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-pedidos-content">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- MODAL LOTE -->
+    <div class="enterprise-modal-overlay" id="modal-lote-box">
+        <div class="enterprise-modal-box">
+            <button class="modal-close-x" onclick="cerrarModalLote()">&times;</button>
+            <h3 id="modal-lote-titulo" style="color:var(--espresso); font-weight:800; margin-bottom:20px;">Registrar Lote</h3>
+            <form onsubmit="guardarLoteSistema(event)">
+                <input type="hidden" id="lote-edit-index" value="-1">
+                <div class="form-control-enterprise">
+                    <label>ID del Lote</label>
+                    <input type="text" id="lote-id-input" required placeholder="Ej. LOT-005">
+                </div>
+                <div class="form-control-enterprise">
+                    <label>Variedad de Café</label>
+                    <input type="text" id="lote-variedad-input" required placeholder="Ej. Caturra Chiroso">
+                </div>
+                <div class="form-control-enterprise">
+                    <label>Área y Palos</label>
+                    <input type="text" id="lote-tamano-input" required placeholder="Ej. 1.0 Ha - 2,000 palos">
+                </div>
+                <div class="form-control-enterprise">
+                    <label>Cosecha Recogida (Kilos)</label>
+                    <input type="text" id="lote-kilos-input" required placeholder="Ej. 1,200 kg">
+                </div>
+                <div class="form-control-enterprise">
+                    <label>Destino Principal de la Cosecha (Inventario)</label>
+                    <select id="lote-destino-input" required>
+                        <option value="85% Comercialización Tienda / 15% Consumo Interno">85% Comercialización Tienda / 15% Consumo Interno</option>
+                        <option value="100% Comercialización Tienda Web">100% Comercialización Tienda Web</option>
+                        <option value="100% Reserva y Consumo Familiar">100% Reserva y Consumo Familiar</option>
+                        <option value="Lote Exclusivo Concurso / Exportación">Lote Exclusivo Concurso / Exportación</option>
+                    </select>
+                </div>
+                <div class="form-control-enterprise">
+                    <label>Estado Operativo</label>
+                    <select id="lote-estado-input">
+                        <option value="En Producción">En Producción Activa</option>
+                        <option value="En Crecimiento / Levante">En Crecimiento / Levante</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-enterprise-primary" style="width:100%; justify-content:center;">Guardar Lote</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL INSUMO -->
+    <div class="enterprise-modal-overlay" id="modal-insumo-box">
+        <div class="enterprise-modal-box">
+            <button class="modal-close-x" onclick="cerrarModalInsumo()">&times;</button>
+            <h3 id="modal-insumo-titulo" style="color:var(--espresso); font-weight:800; margin-bottom:20px;">Registrar Insumo</h3>
+            <form onsubmit="guardarInsumoSistema(event)">
+                <input type="hidden" id="ins-edit-index" value="-1">
+                <div class="form-control-enterprise">
+                    <label>ID Insumo</label>
+                    <input type="text" id="ins-id-input" required placeholder="Ej. INS-006">
+                </div>
+                <div class="form-control-enterprise">
+                    <label>Nombre del Insumo / Recurso</label>
+                    <input type="text" id="ins-nombre-input" required placeholder="Ej. Pulpa Compostada">
+                </div>
+                <div class="form-control-enterprise">
+                    <label>Categoría Agrícola (Filtro Selector)</label>
+                    <select id="ins-cat-input" required>
+                        <option value="Nutrición Orgánica">Nutrición Orgánica</option>
+                        <option value="Nutrición Edáfica">Nutrición Edáfica</option>
+                        <option value="Enmienda de Suelos">Enmienda de Suelos</option>
+                        <option value="Control Fitosanitario">Control Fitosanitario</option>
+                        <option value="Costo Operativo Cosecha">Costo Operativo Cosecha</option>
+                        <option value="Materia Prima Comercial">Materia Prima Comercial</option>
+                    </select>
+                </div>
+                <div class="form-control-enterprise">
+                    <label>Cantidad Disponible</label>
+                    <input type="text" id="ins-cant-input" required placeholder="Ej. 30 Bultos">
+                </div>
+                <div class="form-control-enterprise">
+                    <label>Costo Unitario</label>
+                    <input type="text" id="ins-costounit-input" required placeholder="$35.000">
+                </div>
+                <div class="form-control-enterprise">
+                    <label>Costo Total (COP)</label>
+                    <input type="text" id="ins-costototal-input" required placeholder="$1.050.000">
+                </div>
+                <div class="form-control-enterprise">
+                    <label>Estado</label>
+                    <select id="ins-estado-input">
+                        <option value="Óptimo">Óptimo</option>
+                        <option value="Bajo Stock">Bajo Stock</option>
+                        <option value="Activo">Activo</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-enterprise-primary" style="width:100%; justify-content:center;">Guardar Insumo</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL INVENTARIO -->
+    <div class="enterprise-modal-overlay" id="modal-inventario-box">
+        <div class="enterprise-modal-box">
+            <button class="modal-close-x" onclick="cerrarModalInventario()">&times;</button>
+            <h3 id="modal-inv-titulo" style="color:var(--espresso); font-weight:800; margin-bottom:20px;">Gestión de Producto</h3>
+            <form onsubmit="guardarProductoInventario(event)">
+                <input type="hidden" id="inv-edit-index" value="-1">
+                <div class="form-control-enterprise">
+                    <label>ID Producto</label>
+                    <input type="text" id="inv-id-input" required placeholder="CPS-105">
+                </div>
+                <div class="form-control-enterprise">
+                    <label>Nombre Comercial</label>
+                    <input type="text" id="inv-nombre-input" required placeholder="Bolsa Geisha Honey">
+                </div>
+                <div class="form-control-enterprise">
+                    <label>Variedad</label>
+                    <input type="text" id="inv-variedad-input" required placeholder="Geisha">
+                </div>
+                <div class="form-control-enterprise">
+                    <label>Precio Unitario (COP)</label>
+                    <input type="number" id="inv-precio-input" required placeholder="50000">
+                </div>
+                <div class="form-control-enterprise">
+                    <label>Stock Disponible</label>
+                    <input type="number" id="inv-stock-input" required placeholder="15">
+                </div>
+                <button type="submit" class="btn-enterprise-primary" style="width:100%; justify-content:center;">Guardar Producto</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL PEDIDOS / EDITAR ESTADO DE ENVÍO -->
+    <div class="enterprise-modal-overlay" id="modal-pedido-box">
+        <div class="enterprise-modal-box">
+            <button class="modal-close-x" onclick="cerrarModalPedido()">&times;</button>
+            <h3 id="modal-ped-titulo" style="color:var(--espresso); font-weight:800; margin-bottom:20px;">Gestionar Orden y Estado de Envío</h3>
+            <form onsubmit="guardarPedidoSistema(event)">
+                <input type="hidden" id="ped-edit-index" value="-1">
+                <div class="form-control-enterprise">
+                    <label>ID Orden</label>
+                    <input type="text" id="ped-id-input" required placeholder="ORD-9022">
+                </div>
+                <div class="form-control-enterprise">
+                    <label>Nombre del Cliente</label>
+                    <input type="text" id="ped-cliente-input" required placeholder="Valeria Gómez">
+                </div>
+                <div class="form-control-enterprise">
+                    <label>Detalle de Productos</label>
+                    <input type="text" id="ped-detalle-input" required placeholder="2x Borbón Rosado (500g)">
+                </div>
+                <div class="form-control-enterprise">
+                    <label>Total Facturado (COP)</label>
+                    <input type="text" id="ped-total-input" required placeholder="$82.000">
+                </div>
+                <div class="form-control-enterprise">
+                    <label>Estado de Envío / Despacho (Editable)</label>
+                    <select id="ped-estado-input" required>
+                        <option value="Preparando Guía">Preparando Guía</option>
+                        <option value="Despachado / En Ruta">Despachado / En Ruta</option>
+                        <option value="Entregado">Entregado</option>
+                        <option value="Devolución / Novedad">Devolución / Novedad</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-enterprise-primary" style="width:100%; justify-content:center;">Actualizar Estado de Envío</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SCRIPT DE GESTIÓN CORPORATIVA -->
+    <script>
+        let inventarioData = [
+            { id: "CPS-101", nombre: "Bolsa Borbón Rosado Honey", variedad: "Borbón Rosado", precio: 35000, stock: 18 },
+            { id: "CPS-102", nombre: "Bolsa Castillo Tradición Lavado", variedad: "Castillo", precio: 48000, stock: 30 },
+            { id: "CPS-103", nombre: "Bolsa Geisha Aniversario Natural", variedad: "Geisha", precio: 45000, stock: 8 },
+            { id: "CPS-104", nombre: "Bolsa Caturra Especial Finca", variedad: "Caturra", precio: 28000, stock: 25 }
+        ];
+
+        let lotesData = [
+            { id: "LOT-001", variedad: "Borbón Rosado", area: "1.5 Ha", palos: "3,200 palos", kilos: "1,800 kg", destino: "85% Comercialización Tienda / 15% Consumo Interno", estado: "En Producción" },
+            { id: "LOT-002", variedad: "Geisha Especial", area: "1.0 Ha", palos: "2,100 palos", kilos: "1,620 kg", destino: "85% Comercialización Tienda / 15% Consumo Interno", estado: "En Producción" },
+            { id: "LOT-003", variedad: "Castillo Tradición", area: "1.2 Ha", palos: "2,800 palos", kilos: "1,450 kg", destino: "100% Comercialización Tienda Web", estado: "En Producción" },
+            { id: "LOT-004", variedad: "Caturra Finca", area: "0.8 Ha", palos: "1,500 palos", kilos: "0 kg", destino: "100% Reserva y Consumo Familiar", estado: "En Crecimiento / Levante" }
+        ];
+
+        let insumosData = [
+            { id: "INS-001", nombre: "Abono Orgánico Compostado", cat: "Nutrición Orgánica", cant: "45 Bultos", costoUnit: "$35.000", costoTotal: "$1.575.000", estado: "Óptimo" },
+            { id: "INS-002", nombre: "Fertilizante Químico NPK", cat: "Nutrición Edáfica", cant: "20 Bultos", costoUnit: "$125.000", costoTotal: "$2.500.000", estado: "Óptimo" },
+            { id: "INS-003", nombre: "Cal Agrícola", cat: "Enmienda de Suelos", cant: "15 Bultos", costoUnit: "$28.000", costoTotal: "$420.000", estado: "Bajo Stock" },
+            { id: "INS-004", nombre: "Fungicida Cúprico", cat: "Control Fitosanitario", cant: "8 Garrafas", costoUnit: "$95.000", costoTotal: "$760.000", estado: "Óptimo" }
+        ];
+
+        let pedidosData = [
+            { id: "ORD-9021", cliente: "Samuel Escalante", detalle: "2x Borbón Rosado Honey (500g)", total: "$82.000", estado: "Preparando Guía" },
+            { id: "ORD-9020", cliente: "Valeria Gómez", detalle: "1x Geisha Aniversario (250g)", total: "$57.000", estado: "Despachado / En Ruta" }
+        ];
+
+        window.onload = function() {
+            refrescarTablaInventario();
+            refrescarTablaLotes();
+            refrescarTablaInsumos();
+            refrescarTablaPedidos();
+        };
+
+        function switchDashboardView(viewId, linkElement) {
+            document.querySelectorAll('.dashboard-view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+
+            document.getElementById(viewId).classList.add('active');
+            linkElement.classList.add('active');
+
+            const titulosMap = {
+                'view-analytics': 'Analítica & KPIs Generales',
+                'view-lotes': 'Monitoreo de Lotes de Producción',
+                'view-insumos': 'Insumos, Abonos y Costos Agrícolas',
+                'view-contabilidad': 'Contabilidad & Finanzas Corporativas',
+                'view-inventario': 'Gestión de Inventario de Tienda',
+                'view-pedidos': 'Órdenes de Clientes y Estado de Envíos'
+            };
+            document.getElementById('topbar-title-text').innerText = titulosMap[viewId];
+        }
+
+        // --- GESTIÓN DE LOTES ---
+        function refrescarTablaLotes() {
+            const tbody = document.getElementById('tabla-lotes-content');
+            tbody.innerHTML = '';
+            lotesData.forEach((l, index) => {
+                const badgeClass = l.estado.includes('Producción') ? 'success' : 'warning';
+                tbody.innerHTML += `
+                    <tr>
+                        <td><b>${l.id}</b></td>
+                        <td>${l.variedad}</td>
+                        <td>${l.area}</td>
+                        <td>${l.palos}</td>
+                        <td>${l.kilos}</td>
+                        <td><span style="font-size:0.82rem; font-weight:700; color:var(--tamesis-green);">${l.destino}</span></td>
+                        <td><span class="status-pill ${badgeClass}">${l.estado}</span></td>
+                        <td>
+                            <div class="action-btns-group">
+                                <button class="btn-table-action btn-edit-action" onclick="editarLote(${index})"><span class="material-symbols-outlined" style="font-size:15px;">edit</span></button>
+                                <button class="btn-table-action btn-delete-action" onclick="eliminarLote(${index})"><span class="material-symbols-outlined" style="font-size:15px;">delete</span></button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+        function abrirModalLote(index = -1) {
+            document.getElementById('modal-lote-box').classList.add('active');
+            document.getElementById('lote-edit-index').value = index;
+            if (index > -1) {
+                const l = lotesData[index];
+                document.getElementById('modal-lote-titulo').innerText = "Editar Lote y Destino";
+                document.getElementById('lote-id-input').value = l.id;
+                document.getElementById('lote-variedad-input').value = l.variedad;
+                document.getElementById('lote-tamano-input').value = `${l.area} - ${l.palos}`;
+                document.getElementById('lote-kilos-input').value = l.kilos;
+                document.getElementById('lote-destino-input').value = l.destino;
+                document.getElementById('lote-estado-input').value = l.estado;
+            } else {
+                document.getElementById('modal-lote-titulo').innerText = "Registrar Lote y Destino";
+                document.getElementById('lote-id-input').value = "";
+                document.getElementById('lote-variedad-input').value = "";
+                document.getElementById('lote-tamano-input').value = "";
+                document.getElementById('lote-kilos-input').value = "";
+            }
+        }
+        function cerrarModalLote() { document.getElementById('modal-lote-box').classList.remove('active'); }
+        function guardarLoteSistema(e) {
+            e.preventDefault();
+            const index = parseInt(document.getElementById('lote-edit-index').value);
+            const id = document.getElementById('lote-id-input').value;
+            const variedad = document.getElementById('lote-variedad-input').value;
+            const tamanoInput = document.getElementById('lote-tamano-input').value.split('-');
+            const area = tamanoInput[0] ? tamanoInput[0].trim() : "1.0 Ha";
+            const palos = tamanoInput[1] ? tamanoInput[1].trim() : "2,000 palos";
+            const kilos = document.getElementById('lote-kilos-input').value;
+            const destino = document.getElementById('lote-destino-input').value;
+            const estado = document.getElementById('lote-estado-input').value;
+
+            const obj = { id, variedad, area, palos, kilos, destino, estado };
+            if (index > -1) lotesData[index] = obj;
+            else lotesData.push(obj);
+
+            refrescarTablaLotes();
+            cerrarModalLote();
+        }
+        function editarLote(index) { abrirModalLote(index); }
+        function eliminarLote(index) {
+            if (confirm('¿Desea eliminar este lote?')) { lotesData.splice(index, 1); refrescarTablaLotes(); }
+        }
+
+        // --- GESTIÓN DE INSUMOS ---
+        function refrescarTablaInsumos() {
+            const tbody = document.getElementById('tabla-insumos-content');
+            tbody.innerHTML = '';
+            insumosData.forEach((i, index) => {
+                const badgeClass = i.estado === 'Óptimo' || i.estado === 'Activo' ? 'success' : 'warning';
+                tbody.innerHTML += `
+                    <tr>
+                        <td><b>${i.id}</b></td>
+                        <td>${i.nombre}</td>
+                        <td><span style="background:var(--gold-light); padding:4px 10px; border-radius:12px; font-size:0.78rem; font-weight:700; color:var(--espresso);">${i.cat}</span></td>
+                        <td>${i.cant}</td>
+                        <td>${i.costoUnit}</td>
+                        <td><b>${i.costoTotal}</b></td>
+                        <td><span class="status-pill ${badgeClass}">${i.estado}</span></td>
+                        <td>
+                            <div class="action-btns-group">
+                                <button class="btn-table-action btn-edit-action" onclick="editarInsumo(${index})"><span class="material-symbols-outlined" style="font-size:15px;">edit</span></button>
+                                <button class="btn-table-action btn-delete-action" onclick="eliminarInsumo(${index})"><span class="material-symbols-outlined" style="font-size:15px;">delete</span></button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+        function abrirModalInsumo(index = -1) {
+            document.getElementById('modal-insumo-box').classList.add('active');
+            document.getElementById('ins-edit-index').value = index;
+            if (index > -1) {
+                const i = insumosData[index];
+                document.getElementById('modal-insumo-titulo').innerText = "Editar Insumo";
+                document.getElementById('ins-id-input').value = i.id;
+                document.getElementById('ins-nombre-input').value = i.nombre;
+                document.getElementById('ins-cat-input').value = i.cat;
+                document.getElementById('ins-cant-input').value = i.cant;
+                document.getElementById('ins-costounit-input').value = i.costoUnit;
+                document.getElementById('ins-costototal-input').value = i.costoTotal;
+                document.getElementById('ins-estado-input').value = i.estado;
+            } else {
+                document.getElementById('modal-insumo-titulo').innerText = "Registrar Insumo";
+                document.getElementById('ins-id-input').value = `INS-00${insumosData.length + 1}`;
+                document.getElementById('ins-nombre-input').value = "";
+                document.getElementById('ins-cant-input').value = "";
+                document.getElementById('ins-costounit-input').value = "";
+                document.getElementById('ins-costototal-input').value = "";
+            }
+        }
+        function cerrarModalInsumo() { document.getElementById('modal-insumo-box').classList.remove('active'); }
+        function guardarInsumoSistema(e) {
+            e.preventDefault();
+            const index = parseInt(document.getElementById('ins-edit-index').value);
+            const obj = {
+                id: document.getElementById('ins-id-input').value,
+                nombre: document.getElementById('ins-nombre-input').value,
+                cat: document.getElementById('ins-cat-input').value,
+                cant: document.getElementById('ins-cant-input').value,
+                costoUnit: document.getElementById('ins-costounit-input').value,
+                costoTotal: document.getElementById('ins-costototal-input').value,
+                estado: document.getElementById('ins-estado-input').value
+            };
+            if (index > -1) insumosData[index] = obj;
+            else insumosData.push(obj);
+
+            refrescarTablaInsumos();
+            cerrarModalInsumo();
+        }
+        function editarInsumo(index) { abrirModalInsumo(index); }
+        function eliminarInsumo(index) {
+            if (confirm('¿Desea eliminar este insumo?')) { insumosData.splice(index, 1); refrescarTablaInsumos(); }
+        }
+
+        // --- GESTIÓN DE INVENTARIO TIENDA ---
+        function refrescarTablaInventario() {
+            const tbody = document.getElementById('tabla-inventario-content');
+            tbody.innerHTML = '';
+            document.getElementById('kpi-bolsas-val').innerText = `${inventarioData.reduce((acc, p) => acc + p.stock, 0)} Unidades`;
+
+            inventarioData.forEach((prod, index) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td><b>${prod.id}</b></td>
+                        <td>${prod.nombre}</td>
+                        <td>${prod.variedad}</td>
+                        <td><b>$${prod.precio.toLocaleString('es-CO')}</b></td>
+                        <td><span class="status-pill success">${prod.stock} disp.</span></td>
+                        <td>
+                            <div class="action-btns-group">
+                                <button class="btn-table-action btn-edit-action" onclick="editarProducto(${index})"><span class="material-symbols-outlined" style="font-size:15px;">edit</span></button>
+                                <button class="btn-table-action btn-delete-action" onclick="removerItemInventario(${index})"><span class="material-symbols-outlined" style="font-size:15px;">delete</span></button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+        function abrirModalInventario(index = -1) {
+            document.getElementById('modal-inventario-box').classList.add('active');
+            document.getElementById('inv-edit-index').value = index;
+            if (index > -1) {
+                const p = inventarioData[index];
+                document.getElementById('modal-inv-titulo').innerText = "Editar Producto";
+                document.getElementById('inv-id-input').value = p.id;
+                document.getElementById('inv-nombre-input').value = p.nombre;
+                document.getElementById('inv-variedad-input').value = p.variedad;
+                document.getElementById('inv-precio-input').value = p.precio;
+                document.getElementById('inv-stock-input').value = p.stock;
+            } else {
+                document.getElementById('modal-inv-titulo').innerText = "Agregar Producto";
+                document.getElementById('inv-id-input').value = `CPS-10${inventarioData.length + 1}`;
+                document.getElementById('inv-nombre-input').value = "";
+                document.getElementById('inv-variedad-input').value = "";
+                document.getElementById('inv-precio-input').value = "";
+                document.getElementById('inv-stock-input').value = "";
+            }
+        }
+        function cerrarModalInventario() { document.getElementById('modal-inventario-box').classList.remove('active'); }
+        function guardarProductoInventario(e) {
+            e.preventDefault();
+            const index = parseInt(document.getElementById('inv-edit-index').value);
+            const obj = {
+                id: document.getElementById('inv-id-input').value,
+                nombre: document.getElementById('inv-nombre-input').value,
+                variedad: document.getElementById('inv-variedad-input').value,
+                precio: parseInt(document.getElementById('inv-precio-input').value),
+                stock: parseInt(document.getElementById('inv-stock-input').value)
+            };
+            if (index > -1) inventarioData[index] = obj;
+            else inventarioData.push(obj);
+
+            refrescarTablaInventario();
+            cerrarModalInventario();
+        }
+        function editarProducto(index) { abrirModalInventario(index); }
+        function removerItemInventario(index) {
+            if (confirm('¿Desea dar de baja este producto?')) { inventarioData.splice(index, 1); refrescarTablaInventario(); }
+        }
+
+        // --- GESTIÓN DE PEDIDOS Y ESTADO DE ENVÍO EDITABLE ---
+        function refrescarTablaPedidos() {
+            const tbody = document.getElementById('tabla-pedidos-content');
+            tbody.innerHTML = '';
+            document.getElementById('kpi-pedidos-val').innerText = `${pedidosData.length} Órdenes`;
+
+            pedidosData.forEach((p, index) => {
+                let badgeClass = 'warning';
+                if (p.estado.includes('Entregado')) badgeClass = 'success';
+                else if (p.estado.includes('Devolución')) badgeClass = 'danger';
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td><b>${p.id}</b></td>
+                        <td>${p.cliente}</td>
+                        <td>${p.detalle}</td>
+                        <td><b>${p.total}</b></td>
+                        <td><span class="status-pill ${badgeClass}">${p.estado}</span></td>
+                        <td>
+                            <div class="action-btns-group">
+                                <button class="btn-table-action btn-edit-action" onclick="editarPedido(${index})"><span class="material-symbols-outlined" style="font-size:15px;">edit</span> Cambiar Estado</button>
+                                <button class="btn-table-action btn-delete-action" onclick="eliminarPedido(${index})"><span class="material-symbols-outlined" style="font-size:15px;">delete</span></button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+        function abrirModalPedido(index = -1) {
+            document.getElementById('modal-pedido-box').classList.add('active');
+            document.getElementById('ped-edit-index').value = index;
+            if (index > -1) {
+                const p = pedidosData[index];
+                document.getElementById('modal-ped-titulo').innerText = "Editar Estado de Envío de Orden";
+                document.getElementById('ped-id-input').value = p.id;
+                document.getElementById('ped-cliente-input').value = p.cliente;
+                document.getElementById('ped-detalle-input').value = p.detalle;
+                document.getElementById('ped-total-input').value = p.total;
+                document.getElementById('ped-estado-input').value = p.estado;
+            } else {
+                document.getElementById('modal-ped-titulo').innerText = "Registrar Orden Manual";
+                document.getElementById('ped-id-input').value = `ORD-90${pedidosData.length + 22}`;
+                document.getElementById('ped-cliente-input').value = "";
+                document.getElementById('ped-detalle-input').value = "";
+                document.getElementById('ped-total-input').value = "";
+            }
+        }
+        function cerrarModalPedido() { document.getElementById('modal-pedido-box').classList.remove('active'); }
+        function guardarPedidoSistema(e) {
+            e.preventDefault();
+            const index = parseInt(document.getElementById('ped-edit-index').value);
+            const obj = {
+                id: document.getElementById('ped-id-input').value,
+                cliente: document.getElementById('ped-cliente-input').value,
+                detalle: document.getElementById('ped-detalle-input').value,
+                total: document.getElementById('ped-total-input').value,
+                estado: document.getElementById('ped-estado-input').value
+            };
+            if (index > -1) pedidosData[index] = obj;
+            else pedidosData.push(obj);
+
+            refrescarTablaPedidos();
+            cerrarModalPedido();
+        }
+        function editarPedido(index) { abrirModalPedido(index); }
+        function eliminarPedido(index) {
+            if (confirm('¿Desea eliminar esta orden?')) { pedidosData.splice(index, 1); refrescarTablaPedidos(); }
+        }
+
+        function cerrarSesionSistema() {
+            localStorage.removeItem('usuarioActivo');
+            localStorage.removeItem('rolUsuario');
+        }
+    </script>
+</body>
+</html>

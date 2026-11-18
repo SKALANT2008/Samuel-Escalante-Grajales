@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión | Café para Siempre</title>
+    
+    <!-- Fuente Enterprise Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #2C1810;
+            --primary-hover: #1A0F0A;
+            --accent: #D4A373;
+            --green-leaf: #2D5A27;
+            --green-hover: #1E3F1A;
+            --bg-body: #F4F1EA;
+            --surface-card: #FFFFFF;
+            --surface-subtle: #F8F9FA;
+            --border-color: #E2D7C5;
+            --text-main: #1F1F1F;
+            --text-muted: #6C757D;
+            --white: #FFFFFF;
+            --danger: #D90429;
+            --danger-bg: #FFE5E5;
+            --success: #2A9D8F;
+            --success-bg: #E8F8F5;
+            --shadow-lg: 0 20px 40px rgba(44, 24, 16, 0.25);
+            --radius-md: 12px;
+            --radius-lg: 20px;
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, rgba(20, 10, 6, 0.8) 0%, rgba(44, 24, 16, 0.88) 100%), 
+                        url('https://alcompasdeantioquia.com/wp-content/uploads/2022/10/800px-Tamesis_Antioquia.jpg') center/cover no-repeat fixed;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .auth-wrapper {
+            width: 100%;
+            max-width: 450px;
+            background: var(--surface-card);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        /* HEADER CON LA IGLESIA DE TÁMESIS */
+        .auth-header {
+            background: linear-gradient(135deg, var(--primary) 0%, #170A05 100%);
+            padding: 28px 25px 22px;
+            text-align: center;
+            color: var(--white);
+            border-bottom: 3px solid var(--accent);
+        }
+
+        .auth-header .brand-icon-tamesis {
+            width: 70px;
+            height: 70px;
+            border: 3px solid var(--accent);
+            border-radius: 50%;
+            display: inline-block;
+            margin-bottom: 8px;
+            object-fit: cover;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+
+        .auth-header h1 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 2px;
+        }
+
+        .auth-header p {
+            font-size: 0.85rem;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        /* PESTAÑAS (LOGIN / REGISTRO) */
+        .tab-navigation {
+            display: flex;
+            background: var(--surface-subtle);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 14px 10px;
+            border: none;
+            background: transparent;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            background: var(--surface-card);
+            border-bottom: 3px solid var(--accent);
+        }
+
+        /* CONTENIDO FORMULARIOS */
+        .auth-content {
+            padding: 28px;
+        }
+
+        .form-panel {
+            display: none;
+        }
+
+        .form-panel.active {
+            display: block;
+        }
+
+        /* MENSAJES DE NOTIFICACIÓN EN PANTALLA */
+        .alert-box {
+            display: none;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.83rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .alert-box.danger {
+            background-color: var(--danger-bg);
+            color: var(--danger);
+            border: 1px solid #F87171;
+        }
+
+        .alert-box.success {
+            background-color: var(--success-bg);
+            color: var(--success);
+            border: 1px solid #2A9D8F;
+        }
+
+        .alert-box.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper svg.field-icon {
+            position: absolute;
+            left: 14px;
+            width: 18px;
+            height: 18px;
+            fill: var(--text-muted);
+            pointer-events: none;
+        }
+
+        .input-control {
+            width: 100%;
+            padding: 12px 42px;
+            background: var(--surface-subtle);
+            border: 1.5px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-main);
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .input-control:focus {
+            background: var(--surface-card);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(212, 163, 115, 0.2);
+        }
+
+        /* BOTÓN OJITO SVG INTERACTIVO */
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toggle-password svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--text-muted);
+            transition: fill 0.2s;
+        }
+
+        .toggle-password:hover svg {
+            fill: var(--primary);
+        }
+
+        .forgot-link {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--green-leaf);
+            text-decoration: none;
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+
+        .btn-primary-action {
+            width: 100%;
+            padding: 13px;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .btn-primary-action:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-primary-action.register-btn {
+            background: var(--green-leaf);
+        }
+
+        .btn-primary-action.register-btn:hover {
+            background: var(--green-hover);
+        }
+
+        /* DIVIDER */
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 22px 0 16px;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .divider span {
+            padding: 0 10px;
+        }
+
+        /* BOTONES CON LOGOS OFICIALES EN SVG */
+        .sso-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-sso {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 12px;
+            background: var(--white);
+            border: 1px solid #D1D5DB;
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #374151;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .btn-sso:hover {
+            background: #F9FAFB;
+            border-color: #9CA3AF;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+
+        .btn-sso svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .btn-sso.facebook-btn {
+            background: #1877F2;
+            color: #FFFFFF;
+            border: none;
+        }
+
+        .btn-sso.facebook-btn:hover {
+            background: #166FE5;
+        }
+
+        .back-to-home {
+            display: block;
+            text-align: center;
+            margin-top: 22px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .back-to-home:hover {
+            color: var(--primary);
+        }
+
+        /* MODAL DE RECUPERACIÓN */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(4px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-card {
+            background: var(--white);
+            width: 100%;
+            max-width: 400px;
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-wrapper">
+        <!-- HEADER CON FOTO REAL DE LA IGLESIA DE TÁMESIS -->
+        <header class="auth-header">
+            <img src="https://alcompasdeantioquia.com/wp-content/uploads/2022/10/800px-Tamesis_Antioquia.jpg" alt="Iglesia de Támesis" class="brand-icon-tamesis">
+            <h1>Café para Siempre</h1>
+            <p>Támesis, Antioquia</p>
+        </header>
+
+        <!-- NAVEGACIÓN PESTAÑAS -->
+        <nav class="tab-navigation">
+            <button class="tab-btn active" id="tab-login" onclick="switchAuthTab('login')">
+                Iniciar Sesión
+            </button>
+            <button class="tab-btn" id="tab-register" onclick="switchAuthTab('register')">
+                Crear Cuenta
+            </button>
+        </nav>
+
+        <div class="auth-content">
+            
+            <!-- CONTENEDOR DE MENSAJES EN PANTALLA -->
+            <div id="alert-box" class="alert-box"></div>
+
+            <!-- FORMULARIO DE INICIO DE SESIÓN -->
+            <form id="form-login-panel" class="form-panel active" onsubmit="handleLoginSubmit(event)" autocomplete="off">
+                
+                <div class="form-group">
+                    <div class="form-label">
+                        <label for="login-email">Correo Electrónico</label>
+                    </div>
+                    <div class="input-wrapper">
+                        <svg class="field-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                        <input type="email" id="login-email" class="input-control" placeholder="Ingresa tu correo" value="" required autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-label">
+                        <label for="login-password">Contraseña</label>
+                        <a href="javascript:void(0)" class="forgot-link" onclick="openResetModal()">¿Olvidaste tu contraseña?</a>
+                    </div>
+                    <div class="input-wrapper">
+                        <svg class="field-icon" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                        <input type="password" id="login-password" class="input-control" placeholder="••••••••" value="" required autocomplete="new-password">
+                        
+                        <!-- BOTÓN OJITO SVG INTERACTIVO -->
+                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility('login-password', this)">
+                            <svg id="eye-icon-svg" viewBox="0 0 24 24">
+                                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary-action">
+                    Entrar a la Plataforma
+                </button>
+
+                <!-- BOTONES SOCIALES ABAJO CON LOGOS OFICIALES EN SVG -->
+                <div class="divider">
+                    <span>O entra con tu cuenta de</span>
+                </div>
+
+                <div class="sso-container">
+                    <button type="button" class="btn-sso" onclick="triggerSSO('Google')">
+                        <svg viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                        </svg>
+                        Continuar con Google
+                    </button>
+
+                    <button type="button" class="btn-sso facebook-btn" onclick="triggerSSO('Facebook')">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                        Continuar con Facebook
+                    </button>
+                </div>
+            </form>
+
+            <!-- FORMULARIO DE REGISTRO -->
+            <form id="form-register-panel" class="form-panel" onsubmit="handleRegisterSubmit(event)" autocomplete="off">
+                <div class="form-group">
+                    <div class="form-label"><label for="reg-name">Nombre Completo</label></div>
+                    <div class="input-wrapper">
+                        <svg class="field-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                        <input type="text" id="reg-name" class="input-control" placeholder="Tu nombre" value="" required autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-label"><label for="reg-email">Correo Electrónico</label></div>
+                    <div class="input-wrapper">
+                        <svg class="field-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                        <input type="email" id="reg-email" class="input-control" placeholder="tu-correo@ejemplo.com" value="" required autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-label"><label for="reg-password">Contraseña</label></div>
+                    <div class="input-wrapper">
+                        <svg class="field-icon" viewBox="0 0 24 24"><path d="M12.65 10C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H17v2h2v-2h2v-2h-8.35zM7 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>
+                        <input type="password" id="reg-password" class="input-control" placeholder="Crea una contraseña" value="" required minlength="6" autocomplete="new-password">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary-action register-btn">
+                    Crear Cuenta Gratis
+                </button>
+            </form>
+
+            <a href="index.html" class="back-to-home">
+                ← Volver a la página principal
+            </a>
+
+        </div>
+    </div>
+
+    <!-- MODAL DE RECUPERACIÓN DE CONTRASEÑA -->
+    <div class="modal-overlay" id="recovery-modal">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeResetModal()">&times;</button>
+            <div style="text-align: center; margin-bottom: 18px;">
+                <h3 style="color:var(--primary); font-weight:800; margin-top:8px;">Recuperar Contraseña</h3>
+                <p style="font-size:0.82rem; color:var(--text-muted); margin-top:4px;">
+                    Ingresa tu correo registrado y te enviaremos las instrucciones de restablecimiento.
+                </p>
+            </div>
+            
+            <form onsubmit="handlePasswordReset(event)">
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <svg class="field-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                        <input type="email" id="reset-email" class="input-control" placeholder="tu-correo@ejemplo.com" value="" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary-action">
+                    Enviar Instrucciones
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SCRIPT DE VALIDACIÓN Y REDIRECCIÓN CORRECTA AL ADMIN PANEL -->
+    <script>
+        function obtenerUsuarios() {
+            const usuariosGuardados = localStorage.getItem('db_usuarios_cafe');
+            return usuariosGuardados ? JSON.parse(usuariosGuardados) : [];
+        }
+
+        function guardarUsuarios(lista) {
+            localStorage.setItem('db_usuarios_cafe', JSON.stringify(lista));
+        }
+
+        function mostrarAlerta(mensaje, tipo = 'danger') {
+            const box = document.getElementById('alert-box');
+            box.innerText = mensaje;
+            box.className = `alert-box ${tipo} active`;
+        }
+
+        function ocultarAlerta() {
+            const box = document.getElementById('alert-box');
+            box.className = 'alert-box';
+        }
+
+        function switchAuthTab(tab) {
+            const loginPanel = document.getElementById('form-login-panel');
+            const registerPanel = document.getElementById('form-register-panel');
+            const tabLoginBtn = document.getElementById('tab-login');
+            const tabRegisterBtn = document.getElementById('tab-register');
+            ocultarAlerta();
+
+            if (tab === 'login') {
+                loginPanel.classList.add('active');
+                registerPanel.classList.remove('active');
+                tabLoginBtn.classList.add('active');
+                tabRegisterBtn.classList.remove('active');
+            } else {
+                loginPanel.classList.remove('active');
+                registerPanel.classList.add('active');
+                tabLoginBtn.classList.remove('active');
+                tabRegisterBtn.classList.add('active');
+            }
+        }
+
+        function togglePasswordVisibility(fieldId, btnElement) {
+            const inputField = document.getElementById(fieldId);
+            const svgIcon = btnElement.querySelector('svg');
+
+            if (inputField.type === 'password') {
+                inputField.type = 'text';
+                svgIcon.innerHTML = `<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.17c0-1.66-1.34-3-3-3l-.17.02z"/>`;
+            } else {
+                inputField.type = 'password';
+                svgIcon.innerHTML = `<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>`;
+            }
+        }
+
+        // VALIDACIÓN Y REDIRECCIÓN DIFERENCIADA (ADMIN VS CLIENTE)
+        function handleLoginSubmit(event) {
+            event.preventDefault();
+            ocultarAlerta();
+
+            const email = document.getElementById('login-email').value.trim().toLowerCase();
+            const password = document.getElementById('login-password').value.trim();
+
+            const ADMIN_EMAIL = "admin@cafeparasiempre.com";
+            const ADMIN_PASS = "admin123";
+
+            // Si es el administrador, va directo al Panel de Administración
+            if (email === ADMIN_EMAIL && password === ADMIN_PASS) {
+                localStorage.setItem('usuarioLogueado', JSON.stringify({
+                    email: ADMIN_EMAIL,
+                    rol: 'administrador',
+                    nombre: 'Administrador Café para Siempre'
+                }));
+                localStorage.setItem('usuarioActivo', ADMIN_EMAIL);
+                localStorage.setItem('rolUsuario', 'admin');
+
+                alert('¡Acceso Administrativo Concedido! Entrando al Panel de Gestión...');
+                window.location.href = 'admin-dashboard.html'; 
+                return;
+            }
+
+            // Si es un cliente normal registrado, va a la tienda virtual
+            const clientesRegistrados = obtenerUsuarios();
+            const clienteValido = clientesRegistrados.find(u => u.email === email && u.pass === password);
+
+            if (clienteValido) {
+                localStorage.setItem('usuarioLogueado', JSON.stringify({
+                    email: clienteValido.email,
+                    rol: 'cliente',
+                    nombre: clienteValido.nombre
+                }));
+                localStorage.setItem('usuarioActivo', clienteValido.email);
+                localStorage.setItem('rolUsuario', 'cliente');
+
+                alert(`¡Bienvenido ${clienteValido.nombre}! Entrando a la Tienda Virtual...`);
+                window.location.href = 'tienda.html';
+            } else {
+                mostrarAlerta('Error: Este correo o contraseña no existen. Debes crear una cuenta primero.', 'danger');
+            }
+        }
+
+        function handleRegisterSubmit(event) {
+            event.preventDefault();
+            ocultarAlerta();
+
+            const name = document.getElementById('reg-name').value.trim();
+            const email = document.getElementById('reg-email').value.trim().toLowerCase();
+            const password = document.getElementById('reg-password').value.trim();
+
+            let usuarios = obtenerUsuarios();
+            const yaExiste = usuarios.some(u => u.email === email);
+            if (yaExiste) {
+                mostrarAlerta('Este correo electrónico ya se encuentra registrado. Inicia sesión.', 'danger');
+                return;
+            }
+
+            usuarios.push({ email: email, pass: password, nombre: name });
+            guardarUsuarios(usuarios);
+
+            switchAuthTab('login');
+            document.getElementById('login-email').value = email;
+            mostrarAlerta(`¡Cuenta registrada con éxito para ${name}! Ahora ingresa tu contraseña.`, 'success');
+        }
+
+        function triggerSSO(provider) {
+            alert(`Iniciando sesión rápida con ${provider}...`);
+            localStorage.setItem('usuarioLogueado', JSON.stringify({
+                email: `usuario_${provider.toLowerCase()}@gmail.com`,
+                rol: 'cliente'
+            }));
+            localStorage.setItem('usuarioActivo', `usuario_${provider.toLowerCase()}@gmail.com`);
+            localStorage.setItem('rolUsuario', 'cliente');
+            window.location.href = 'tienda.html';
+        }
+
+        function openResetModal() {
+            document.getElementById('recovery-modal').classList.add('active');
+        }
+
+        function closeResetModal() {
+            document.getElementById('recovery-modal').classList.remove('active');
+        }
+
+        function handlePasswordReset(event) {
+            event.preventDefault();
+            const email = document.getElementById('reset-email').value;
+            mostrarAlerta(`Si el correo ${email} existe, se enviarán las instrucciones.`, 'success');
+            closeResetModal();
+        }
+    </script>
+</body>
+</html>
